@@ -1,9 +1,19 @@
+using CarpentryWorkshopBusinessLogic.BusinessLogics;
+using CarpentryWorkshopContracts.BusinessLogicsContracts;
+using CarpentryWorkshopContracts.StoragesContracts;
+using CarpentryWorkshopListImplement.Implements;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
+
 namespace CarpentryWorkshopView
 {
     internal static class Program
     {
+        private static ServiceProvider? _serviceProvider;
+        public static ServiceProvider? ServiceProvider => _serviceProvider;
         /// <summary>
-        ///  The main entry point for the application.
+        /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
@@ -11,7 +21,31 @@ namespace CarpentryWorkshopView
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            var services = new ServiceCollection();
+            ConfigureServices(services);
+            _serviceProvider = services.BuildServiceProvider();
+            Application.Run(_serviceProvider.GetRequiredService<FormMain>());
+        }
+        private static void ConfigureServices(ServiceCollection services)
+        {
+            services.AddLogging(option =>
+            {
+                option.SetMinimumLevel(LogLevel.Information);
+                option.AddNLog("nlog.config");
+            });
+            services.AddTransient<IComponentStorage, ComponentStorage>();
+            services.AddTransient<IOrderStorage, OrderStorage>();
+            services.AddTransient<IWoodStorage, WoodStorage>();
+            services.AddTransient<IComponentLogic, ComponentLogic>();
+            services.AddTransient<IOrderLogic, OrderLogic>();
+            services.AddTransient<IWoodLogic, WoodLogic>();
+            services.AddTransient<FormMain>();
+            services.AddTransient<FormComponent>();
+            services.AddTransient<FormComponents>();
+            services.AddTransient<FormCreateOrder>();
+            services.AddTransient<FormWood>();
+            services.AddTransient<FormWoodComponent>();
+            services.AddTransient<FormWoods>();
         }
     }
 }
