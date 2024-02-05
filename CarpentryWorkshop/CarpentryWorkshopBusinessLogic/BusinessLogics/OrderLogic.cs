@@ -116,7 +116,6 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
             {
                 throw new Exception("Заказ не в статусе \"Готов\"");
             }
-
             _orderStorage.Update(new OrderBindingModel
             {
                 Id = order.Id,
@@ -129,13 +128,6 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
                 Status = OrderStatus.Выдан
             });
             return true;
-
         }
-
-
-
-
-      
-
     }
 }
