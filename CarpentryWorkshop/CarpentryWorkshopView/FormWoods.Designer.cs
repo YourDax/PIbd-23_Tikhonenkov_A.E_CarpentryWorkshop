@@ -28,80 +28,79 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.ButtonAdd = new System.Windows.Forms.Button();
-            this.ButtonUpd = new System.Windows.Forms.Button();
-            this.ButtonDel = new System.Windows.Forms.Button();
-            this.ButtonRef = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
-            this.SuspendLayout();
+            dataGridView = new DataGridView();
+            ButtonAdd = new Button();
+            ButtonUpd = new Button();
+            ButtonDel = new Button();
+            ButtonRef = new Button();
+            ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
+            SuspendLayout();
             // 
             // dataGridView
             // 
-            this.dataGridView.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView.Name = "dataGridView";
-            this.dataGridView.RowTemplate.Height = 25;
-            this.dataGridView.Size = new System.Drawing.Size(509, 448);
-            this.dataGridView.TabIndex = 0;
+            dataGridView.BackgroundColor = SystemColors.ButtonHighlight;
+            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView.Location = new Point(0, 0);
+            dataGridView.Name = "dataGridView";
+            dataGridView.RowTemplate.Height = 25;
+            dataGridView.Size = new Size(509, 448);
+            dataGridView.TabIndex = 0;
             // 
             // ButtonAdd
             // 
-            this.ButtonAdd.Location = new System.Drawing.Point(526, 12);
-            this.ButtonAdd.Name = "ButtonAdd";
-            this.ButtonAdd.Size = new System.Drawing.Size(127, 23);
-            this.ButtonAdd.TabIndex = 1;
-            this.ButtonAdd.Text = "Добавить";
-            this.ButtonAdd.UseVisualStyleBackColor = true;
-            this.ButtonAdd.Click += new System.EventHandler(this.ButtonAdd_Click);
+            ButtonAdd.Location = new Point(526, 12);
+            ButtonAdd.Name = "ButtonAdd";
+            ButtonAdd.Size = new Size(127, 23);
+            ButtonAdd.TabIndex = 1;
+            ButtonAdd.Text = "Добавить";
+            ButtonAdd.UseVisualStyleBackColor = true;
+            ButtonAdd.Click += ButtonAdd_Click;
             // 
             // ButtonUpd
             // 
-            this.ButtonUpd.Location = new System.Drawing.Point(526, 41);
-            this.ButtonUpd.Name = "ButtonUpd";
-            this.ButtonUpd.Size = new System.Drawing.Size(127, 23);
-            this.ButtonUpd.TabIndex = 2;
-            this.ButtonUpd.Text = "Изменить";
-            this.ButtonUpd.UseVisualStyleBackColor = true;
-            this.ButtonUpd.Click += new System.EventHandler(this.ButtonUpd_Click);
+            ButtonUpd.Location = new Point(526, 41);
+            ButtonUpd.Name = "ButtonUpd";
+            ButtonUpd.Size = new Size(127, 23);
+            ButtonUpd.TabIndex = 2;
+            ButtonUpd.Text = "Изменить";
+            ButtonUpd.UseVisualStyleBackColor = true;
+            ButtonUpd.Click += ButtonUpd_Click;
             // 
             // ButtonDel
             // 
-            this.ButtonDel.Location = new System.Drawing.Point(526, 70);
-            this.ButtonDel.Name = "ButtonDel";
-            this.ButtonDel.Size = new System.Drawing.Size(127, 23);
-            this.ButtonDel.TabIndex = 3;
-            this.ButtonDel.Text = "Удалить";
-            this.ButtonDel.UseVisualStyleBackColor = true;
-            this.ButtonDel.Click += new System.EventHandler(this.ButtonDel_Click);
+            ButtonDel.Location = new Point(526, 70);
+            ButtonDel.Name = "ButtonDel";
+            ButtonDel.Size = new Size(127, 23);
+            ButtonDel.TabIndex = 3;
+            ButtonDel.Text = "Удалить";
+            ButtonDel.UseVisualStyleBackColor = true;
+            ButtonDel.Click += ButtonDel_Click;
             // 
             // ButtonRef
             // 
-            this.ButtonRef.Location = new System.Drawing.Point(526, 99);
-            this.ButtonRef.Name = "ButtonRef";
-            this.ButtonRef.Size = new System.Drawing.Size(127, 23);
-            this.ButtonRef.TabIndex = 4;
-            this.ButtonRef.Text = "Обновить";
-            this.ButtonRef.UseVisualStyleBackColor = true;
-            this.ButtonRef.Click += new System.EventHandler(this.ButtonRef_Click);
+            ButtonRef.Location = new Point(526, 99);
+            ButtonRef.Name = "ButtonRef";
+            ButtonRef.Size = new Size(127, 23);
+            ButtonRef.TabIndex = 4;
+            ButtonRef.Text = "Обновить";
+            ButtonRef.UseVisualStyleBackColor = true;
+            ButtonRef.Click += ButtonRef_Click;
             // 
             // FormWoods
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(668, 450);
-            this.Controls.Add(this.ButtonRef);
-            this.Controls.Add(this.ButtonDel);
-            this.Controls.Add(this.ButtonUpd);
-            this.Controls.Add(this.ButtonAdd);
-            this.Controls.Add(this.dataGridView);
-            this.Name = "FormWoods";
-            this.Text = "Набор";
-            this.Load += new System.EventHandler(this.FormWoods_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(668, 450);
+            Controls.Add(ButtonRef);
+            Controls.Add(ButtonDel);
+            Controls.Add(ButtonUpd);
+            Controls.Add(ButtonAdd);
+            Controls.Add(dataGridView);
+            Name = "FormWoods";
+            Text = "Изделия";
+            Load += FormWoods_Load;
+            ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion

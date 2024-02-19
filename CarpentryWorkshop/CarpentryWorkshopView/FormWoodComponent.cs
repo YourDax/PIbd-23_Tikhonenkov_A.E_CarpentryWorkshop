@@ -68,5 +68,10 @@ namespace CarpentryWorkshopView
             DialogResult = DialogResult.Cancel;
             Close();
         }
+
+        private void labelComponent_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

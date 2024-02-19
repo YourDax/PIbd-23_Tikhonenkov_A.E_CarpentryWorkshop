@@ -28,84 +28,84 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelComponent = new System.Windows.Forms.Label();
-            this.labelCount = new System.Windows.Forms.Label();
-            this.textBoxCount = new System.Windows.Forms.TextBox();
-            this.comboBoxComponent = new System.Windows.Forms.ComboBox();
-            this.buttonCancel = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            labelComponent = new Label();
+            labelCount = new Label();
+            textBoxCount = new TextBox();
+            comboBoxComponent = new ComboBox();
+            buttonCancel = new Button();
+            buttonSave = new Button();
+            SuspendLayout();
             // 
             // labelComponent
             // 
-            this.labelComponent.AutoSize = true;
-            this.labelComponent.Location = new System.Drawing.Point(12, 9);
-            this.labelComponent.Name = "labelComponent";
-            this.labelComponent.Size = new System.Drawing.Size(76, 15);
-            this.labelComponent.TabIndex = 0;
-            this.labelComponent.Text = "Экипировка:";
+            labelComponent.AutoSize = true;
+            labelComponent.Location = new Point(12, 9);
+            labelComponent.Name = "labelComponent";
+            labelComponent.Size = new Size(72, 15);
+            labelComponent.TabIndex = 0;
+            labelComponent.Text = "Компонент:";
+            labelComponent.Click += labelComponent_Click;
             // 
             // labelCount
             // 
-            this.labelCount.AutoSize = true;
-            this.labelCount.Location = new System.Drawing.Point(12, 37);
-            this.labelCount.Name = "labelCount";
-            this.labelCount.Size = new System.Drawing.Size(75, 15);
-            this.labelCount.TabIndex = 1;
-            this.labelCount.Text = "Количество:";
+            labelCount.AutoSize = true;
+            labelCount.Location = new Point(12, 37);
+            labelCount.Name = "labelCount";
+            labelCount.Size = new Size(75, 15);
+            labelCount.TabIndex = 1;
+            labelCount.Text = "Количество:";
             // 
             // textBoxCount
             // 
-            this.textBoxCount.Location = new System.Drawing.Point(90, 34);
-            this.textBoxCount.Name = "textBoxCount";
-            this.textBoxCount.Size = new System.Drawing.Size(235, 23);
-            this.textBoxCount.TabIndex = 3;
+            textBoxCount.Location = new Point(90, 34);
+            textBoxCount.Name = "textBoxCount";
+            textBoxCount.Size = new Size(235, 23);
+            textBoxCount.TabIndex = 3;
             // 
             // comboBoxComponent
             // 
-            this.comboBoxComponent.BackColor = System.Drawing.SystemColors.Window;
-            this.comboBoxComponent.FormattingEnabled = true;
-            this.comboBoxComponent.Location = new System.Drawing.Point(90, 6);
-            this.comboBoxComponent.Name = "comboBoxComponent";
-            this.comboBoxComponent.Size = new System.Drawing.Size(235, 23);
-            this.comboBoxComponent.TabIndex = 4;
+            comboBoxComponent.BackColor = SystemColors.Window;
+            comboBoxComponent.FormattingEnabled = true;
+            comboBoxComponent.Location = new Point(90, 6);
+            comboBoxComponent.Name = "comboBoxComponent";
+            comboBoxComponent.Size = new Size(235, 23);
+            comboBoxComponent.TabIndex = 4;
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(248, 63);
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 5;
-            this.buttonCancel.Text = "Отмена";
-            this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            buttonCancel.Location = new Point(248, 63);
+            buttonCancel.Name = "buttonCancel";
+            buttonCancel.Size = new Size(75, 23);
+            buttonCancel.TabIndex = 5;
+            buttonCancel.Text = "Отмена";
+            buttonCancel.UseVisualStyleBackColor = true;
+            buttonCancel.Click += buttonCancel_Click;
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(167, 63);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 6;
-            this.buttonSave.Text = "Сохранить";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            buttonSave.Location = new Point(167, 63);
+            buttonSave.Name = "buttonSave";
+            buttonSave.Size = new Size(75, 23);
+            buttonSave.TabIndex = 6;
+            buttonSave.Text = "Сохранить";
+            buttonSave.UseVisualStyleBackColor = true;
+            buttonSave.Click += buttonSave_Click;
             // 
             // FormWoodComponent
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(337, 97);
-            this.Controls.Add(this.buttonSave);
-            this.Controls.Add(this.buttonCancel);
-            this.Controls.Add(this.comboBoxComponent);
-            this.Controls.Add(this.textBoxCount);
-            this.Controls.Add(this.labelCount);
-            this.Controls.Add(this.labelComponent);
-            this.Name = "FormWoodComponent";
-            this.Text = "экипировка набора";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(337, 97);
+            Controls.Add(buttonSave);
+            Controls.Add(buttonCancel);
+            Controls.Add(comboBoxComponent);
+            Controls.Add(textBoxCount);
+            Controls.Add(labelCount);
+            Controls.Add(labelComponent);
+            Name = "FormWoodComponent";
+            Text = "Компонент";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
