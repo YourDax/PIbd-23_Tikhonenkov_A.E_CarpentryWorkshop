@@ -88,11 +88,11 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
             }
             if (string.IsNullOrEmpty(model.WoodName))
             {
-                throw new ArgumentNullException("Нет названия компонента", nameof(model.WoodName));
+                throw new ArgumentNullException("Нет названия изделия", nameof(model.WoodName));
             }
             if (model.Price <= 0)
             {
-                throw new ArgumentNullException("Цена компонента должна быть больше 0", nameof(model.Price));
+                throw new ArgumentNullException("Цена изделия должна быть больше 0", nameof(model.Price));
             }
             _logger.LogInformation("Wood. WoodName:{WoodName}. Cost:{ Cost}. Id: { Id}", model.WoodName, model.Price, model.Id);
             var element = _woodStorage.GetElement(new WoodSearchModel
@@ -101,7 +101,7 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
             });
             if (element != null && element.Id != model.Id)
             {
-                throw new InvalidOperationException("Компонент с таким названием уже есть");
+                throw new InvalidOperationException("Изделие с таким названием уже есть");
             }
         }
     }

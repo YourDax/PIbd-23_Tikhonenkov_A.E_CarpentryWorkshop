@@ -13,14 +13,14 @@ namespace CarpentryWorkshopListImplement.Models
 {
     public class Order : IOrderModel
     {
-        public int Id { get; set; }
-        public int WoodId { get; set; }
-        public string WoodName { get; set; } = string.Empty;
-        public int Count { get; set; }
-        public double Sum { get; set; }
-        public OrderStatus Status { get; set; }
-        public DateTime DateCreate { get; set; }
-        public DateTime? DateImplement { get; set; }
+        public int Id { get; private set; }
+        public int WoodId { get; private set; }
+        public string WoodName { get; private set; }
+        public int Count { get; private set; }
+        public double Sum { get; private set; }
+        public OrderStatus Status { get; private set; }
+        public DateTime DateCreate { get; private set; }
+        public DateTime? DateImplement { get; private set; }
         public static Order? Create(OrderBindingModel? model)
         {
             if (model == null)
