@@ -5,6 +5,7 @@ using CarpentryWorkshopListImplement.Implements;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using CarpentryWorkshopView;
 
 namespace CarpentryWorkshopView
 {
@@ -36,9 +37,13 @@ namespace CarpentryWorkshopView
             services.AddTransient<IComponentStorage, ComponentStorage>();
             services.AddTransient<IOrderStorage, OrderStorage>();
             services.AddTransient<IWoodStorage, WoodStorage>();
+            services.AddTransient<IShopStorage, ShopStorage>();
+
             services.AddTransient<IComponentLogic, ComponentLogic>();
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IWoodLogic, WoodLogic>();
+            services.AddTransient<IShopLogic, ShopLogic>();
+
             services.AddTransient<FormMain>();
             services.AddTransient<FormComponent>();
             services.AddTransient<FormComponents>();
@@ -46,6 +51,9 @@ namespace CarpentryWorkshopView
             services.AddTransient<FormWood>();
             services.AddTransient<FormWoodComponent>();
             services.AddTransient<FormWoods>();
+            services.AddTransient<FormShop>();
+            services.AddTransient<FormShops>();
+            services.AddTransient<FormSupply>();
         }
     }
 }
