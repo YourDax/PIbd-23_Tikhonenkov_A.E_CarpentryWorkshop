@@ -32,14 +32,14 @@
             справочникиToolStripMenuItem = new ToolStripMenuItem();
             КомпонентыToolStripMenuItem = new ToolStripMenuItem();
             ИзделияToolStripMenuItem = new ToolStripMenuItem();
+            магазиныToolStripMenuItem = new ToolStripMenuItem();
             dataGridView = new DataGridView();
             ButtonCreateOrder = new Button();
             ButtonTakeOrderInWork = new Button();
             ButtonOrderReady = new Button();
             ButtonIssuedOrder = new Button();
             ButtonRef = new Button();
-            магазиныToolStripMenuItem = new ToolStripMenuItem();
-            поставкиToolStripMenuItem = new ToolStripMenuItem();
+            поставкаToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             SuspendLayout();
@@ -55,7 +55,7 @@
             // 
             // справочникиToolStripMenuItem
             // 
-            справочникиToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { КомпонентыToolStripMenuItem, ИзделияToolStripMenuItem, магазиныToolStripMenuItem, поставкиToolStripMenuItem });
+            справочникиToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { КомпонентыToolStripMenuItem, ИзделияToolStripMenuItem, магазиныToolStripMenuItem, поставкаToolStripMenuItem });
             справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
             справочникиToolStripMenuItem.Size = new Size(94, 20);
             справочникиToolStripMenuItem.Text = "Справочники";
@@ -73,6 +73,13 @@
             ИзделияToolStripMenuItem.Size = new Size(180, 22);
             ИзделияToolStripMenuItem.Text = "Изделия";
             ИзделияToolStripMenuItem.Click += ИзделияToolStripMenuItem_Click;
+            // 
+            // магазиныToolStripMenuItem
+            // 
+            магазиныToolStripMenuItem.Name = "магазиныToolStripMenuItem";
+            магазиныToolStripMenuItem.Size = new Size(180, 22);
+            магазиныToolStripMenuItem.Text = "Магазины";
+            магазиныToolStripMenuItem.Click += магазиныToolStripMenuItem_Click;
             // 
             // dataGridView
             // 
@@ -136,19 +143,12 @@
             ButtonRef.UseVisualStyleBackColor = true;
             ButtonRef.Click += ButtonRef_Click;
             // 
-            // магазиныToolStripMenuItem
+            // поставкаToolStripMenuItem
             // 
-            магазиныToolStripMenuItem.Name = "магазиныToolStripMenuItem";
-            магазиныToolStripMenuItem.Size = new Size(180, 22);
-            магазиныToolStripMenuItem.Text = "Магазины";
-            магазиныToolStripMenuItem.Click += магазиныToolStripMenuItem_Click;
-            // 
-            // поставкиToolStripMenuItem
-            // 
-            поставкиToolStripMenuItem.Name = "поставкиToolStripMenuItem";
-            поставкиToolStripMenuItem.Size = new Size(180, 22);
-            поставкиToolStripMenuItem.Text = "Поставки";
-            поставкиToolStripMenuItem.DoubleClick += поставкиToolStripMenuItem_Click;
+            поставкаToolStripMenuItem.Name = "поставкаToolStripMenuItem";
+            поставкаToolStripMenuItem.Size = new Size(180, 22);
+            поставкаToolStripMenuItem.Text = "Поставка";
+            поставкаToolStripMenuItem.Click += поставкиToolStripMenuItem_Click;
             // 
             // FormMain
             // 
@@ -185,6 +185,6 @@
         private System.Windows.Forms.ToolStripMenuItem КомпонентыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ИзделияToolStripMenuItem;
         private ToolStripMenuItem магазиныToolStripMenuItem;
-        private ToolStripMenuItem поставкиToolStripMenuItem;
+        private ToolStripMenuItem поставкаToolStripMenuItem;
     }
 }

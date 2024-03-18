@@ -37,23 +37,21 @@
             // 
             // ShopComboBox
             // 
+            ShopComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             ShopComboBox.FormattingEnabled = true;
             ShopComboBox.Location = new Point(12, 12);
             ShopComboBox.Name = "ShopComboBox";
             ShopComboBox.Size = new Size(331, 23);
             ShopComboBox.TabIndex = 0;
-            ShopComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            ShopComboBox.FormattingEnabled = true;
             // 
             // WoodComboBox
             // 
+            WoodComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             WoodComboBox.FormattingEnabled = true;
             WoodComboBox.Location = new Point(12, 41);
             WoodComboBox.Name = "WoodComboBox";
             WoodComboBox.Size = new Size(331, 23);
             WoodComboBox.TabIndex = 1;
-            WoodComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            WoodComboBox.FormattingEnabled = true;
             // 
             // CountTextBox
             // 
@@ -93,7 +91,7 @@
             Controls.Add(WoodComboBox);
             Controls.Add(ShopComboBox);
             Name = "FormSupply";
-            Text = "SupplyForm";
+            Text = "Поставки";
             ResumeLayout(false);
             PerformLayout();
         }
