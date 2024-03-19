@@ -10,11 +10,7 @@ namespace CarpentryWorkshopDataModels.Models
     public interface IOrderModel : IId
     {
         int WoodId { get; }
-        string WoodName
-        {
-            get;
-        }
-
+        string WoodName{ get;}
         int Count { get; }
         double Sum { get; }
         OrderStatus Status { get; }

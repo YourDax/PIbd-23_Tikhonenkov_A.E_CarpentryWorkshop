@@ -43,7 +43,7 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
                 Count = model.Count,
                 Sum = model.Sum,
                 Status = OrderStatus.Принят,
-                DateCreate = DateTime.Now
+                DateCreate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)
             }); ;
             return true;
         }
@@ -96,7 +96,7 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
-                DateImplement = DateTime.Now,
+                DateImplement = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc),
                 Status = OrderStatus.Готов
             });
             return true;

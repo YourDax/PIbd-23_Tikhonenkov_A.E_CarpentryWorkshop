@@ -47,13 +47,9 @@ namespace CarpentryWorkshopDatabaseImplement.Models
             {
                 return;
             }
-            Id = model.Id;
-            WoodId = model.WoodId;
-            WoodName = model.WoodName;
-            Count = model.Count;
-            Sum = model.Sum;
+            
             Status = model.Status;
-            DateCreate = model.DateCreate;
+            
             DateImplement = model.DateImplement;
         }
 

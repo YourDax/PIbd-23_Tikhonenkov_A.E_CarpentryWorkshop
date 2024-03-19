@@ -1,15 +1,20 @@
-﻿using CarpentryWorkshopDatabaseImplement.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using CarpentryWorkshopDatabaseImplement.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace CarpentryWorkshopDatabaseImplement
 {
     public class CarpentryWorkshopDatabase : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder
-       optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=KOMPUTER\SQLEXPRESS;Initial Catalog=CarpentryWorkshopDatabase;Integrated Security=True;MultipleActiveResultSets=True;;TrustServerCertificate=True");
+                optionsBuilder.UseNpgsql(@"Host=localhost;Port=5432;Database=CarpentryWorkshopDatabaseFull;Username=postgres;Password=postgres");
             }
             base.OnConfiguring(optionsBuilder);
         }
