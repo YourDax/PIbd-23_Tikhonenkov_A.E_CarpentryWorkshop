@@ -45,14 +45,25 @@ namespace CarpentryWorkshopDatabaseImplement.Implements
 
         public List<OrderViewModel> GetFilteredList(OrderSearchModel model)
         {
-            if (!model.Id.HasValue)
+            if (!model.Id.HasValue && !model.DateFrom.HasValue)
             {
                 return new();
             }
 
             using var context = new CarpentryWorkshopDatabase();
 
-            return context.Orders.Where(x => x.Id == model.Id).Select(x => GetViewModel(x)).ToList();
+            if (model.DateFrom.HasValue)
+            {
+                return context.Orders
+                    .Where(x => (x.DateCreate >= model.DateFrom && x.DateCreate <= model.DateTo))
+                    .Select(x => x.GetViewModel)
+                    .ToList();
+            }
+
+            return context.Orders
+                .Where(x => x.Id == model.Id)
+                .Select(x => GetViewModel(x))
+                .ToList();
         }
 
         public List<OrderViewModel> GetFullList()

@@ -26,9 +26,16 @@ namespace CarpentryWorkshopFileImplement.Implements
         }
         public List<OrderViewModel> GetFilteredList(OrderSearchModel model)
         {
-            if (model.Id == null)
+            if (!model.Id.HasValue && !model.DateFrom.HasValue)
             {
                 return new();
+            }
+            if (model.DateFrom.HasValue)
+            {
+                return source.Orders
+                    .Where(x => x.DateCreate >= model.DateFrom && x.DateCreate <= model.DateTo)
+                    .Select(x => x.GetViewModel)
+                    .ToList();
             }
             return source.Orders
             .Where(x => x.Id == model.Id)

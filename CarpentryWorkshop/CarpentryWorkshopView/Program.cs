@@ -1,4 +1,6 @@
 using CarpentryWorkshopBusinessLogic.BusinessLogics;
+using CarpentryWorkshopBusinessLogic.OfficePackage.Implements;
+using CarpentryWorkshopBusinessLogic.OfficePackage;
 using CarpentryWorkshopContracts.BusinessLogicsContracts;
 using CarpentryWorkshopContracts.StoragesContracts;
 using CarpentryWorkshopDatabaseImplement.Implements;
@@ -36,9 +38,16 @@ namespace CarpentryWorkshopView
             services.AddTransient<IComponentStorage, ComponentStorage>();
             services.AddTransient<IOrderStorage, OrderStorage>();
             services.AddTransient<IWoodStorage, WoodStorage>();
+
             services.AddTransient<IComponentLogic, ComponentLogic>();
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IWoodLogic, WoodLogic>();
+            services.AddTransient<IReportLogic, ReportLogic>();
+
+            services.AddTransient<AbstractSaveToExcel, SaveToExcel>();
+            services.AddTransient<AbstractSaveToWord, SaveToWord>();
+            services.AddTransient<AbstractSaveToPdf, SaveToPdf>();
+
             services.AddTransient<FormMain>();
             services.AddTransient<FormComponent>();
             services.AddTransient<FormComponents>();
@@ -46,6 +55,8 @@ namespace CarpentryWorkshopView
             services.AddTransient<FormWood>();
             services.AddTransient<FormWoodComponent>();
             services.AddTransient<FormWoods>();
+            services.AddTransient<FormReportWoodComponents>();
+            services.AddTransient<FormReportOrders>();
         }
     }
 }

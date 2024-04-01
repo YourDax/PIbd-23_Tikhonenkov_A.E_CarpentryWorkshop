@@ -1,4 +1,5 @@
-﻿using CarpentryWorkshopContracts.BindingModels;
+﻿using CarpentryWorkshopBusinessLogic.BusinessLogics;
+using CarpentryWorkshopContracts.BindingModels;
 using CarpentryWorkshopContracts.BusinessLogicsContracts;
 using Microsoft.Extensions.Logging;
 using System;
@@ -17,11 +18,13 @@ namespace CarpentryWorkshopView
     {
         private readonly ILogger _logger;
         private readonly IOrderLogic _orderLogic;
-        public FormMain(ILogger<FormMain> logger, IOrderLogic orderLogic)
+        private readonly IReportLogic _reportLogic;
+        public FormMain(ILogger<FormMain> logger, IOrderLogic orderLogic, IReportLogic reportLogic)
         {
             InitializeComponent();
             _logger = logger;
             _orderLogic = orderLogic;
+            _reportLogic = reportLogic;
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -143,6 +146,33 @@ namespace CarpentryWorkshopView
         private void ButtonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+        private void списокИзделийToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using var dialog = new SaveFileDialog { Filter = "docx|*.docx" };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                _reportLogic.SaveComponentsToWordFile(new ReportBindingModel { FileName = dialog.FileName });
+                MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void изделияПоКомпонентамToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var service = Program.ServiceProvider?.GetService(typeof(FormReportWoodComponents));
+            if (service is FormReportWoodComponents form)
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private void списокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var service = Program.ServiceProvider?.GetService(typeof(FormReportOrders));
+            if (service is FormReportOrders form)
+            {
+                form.ShowDialog();
+            }
         }
     }
 }

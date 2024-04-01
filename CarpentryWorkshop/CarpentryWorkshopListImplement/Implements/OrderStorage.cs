@@ -30,9 +30,19 @@ namespace CarpentryWorkshopListImplement.Implements
         public List<OrderViewModel> GetFilteredList(OrderSearchModel model)
         {
             var result = new List<OrderViewModel>();
-            if (model.Id == null)
+            if (!model.Id.HasValue && !model.DateFrom.HasValue)
             {
                 return result;
+            }
+            if (model.DateFrom.HasValue)
+            {
+                foreach (var order in _source.Orders)
+                {
+                    if (order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
+                    {
+                        result.Add(order.GetViewModel);
+                    }
+                }
             }
             foreach (var order in _source.Orders)
             {
