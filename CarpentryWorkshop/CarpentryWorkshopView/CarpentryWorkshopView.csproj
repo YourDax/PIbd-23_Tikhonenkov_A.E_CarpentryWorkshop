@@ -18,7 +18,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CarpentryWorkshopBusinessLogic\CarpentryWorkshopBusinessLogic.csproj" />
     <ProjectReference Include="..\CarpentryWorkshopContracts\CarpentryWorkshopContracts.csproj" />
-    <ProjectReference Include="..\CarpentryWorkshopDataModels\CarpentryWorkshopDataModels.csproj" />
     <ProjectReference Include="..\CarpentryWorkshopFileImplement\CarpentryWorkshopFileImplement.csproj" />
     <ProjectReference Include="..\CarpentryWorkshopListImplement\CarpentryWorkshopListImplement.csproj" />
   </ItemGroup>

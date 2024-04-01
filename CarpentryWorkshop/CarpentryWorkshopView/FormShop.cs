@@ -3,6 +3,7 @@ using CarpentryWorkshopContracts.BusinessLogicsContracts;
 using CarpentryWorkshopContracts.SearchModels;
 using CarpentryWorkshopDataModels.Models;
 using Microsoft.Extensions.Logging;
+using System.Windows.Forms;
 
 namespace CarpentryWorkshopView
 {
@@ -11,12 +12,15 @@ namespace CarpentryWorkshopView
         private readonly ILogger _logger;
         private readonly IShopLogic _logic;
         public int? _id;
+        public int Id { set { _id = value; } }
         private Dictionary<int, (IWoodModel, int)> _woods;
+        private DateTime? _dateopen = null;
         public FormShop(ILogger<FormShop> logger, IShopLogic logic)
         {
             InitializeComponent();
             _logger = logger;
             _logic = logic;
+            _woods = new Dictionary<int, (IWoodModel, int)>();
         }
 
         private void ShopForm_Load(object sender, EventArgs e)
@@ -32,7 +36,8 @@ namespace CarpentryWorkshopView
                         NameTextBox.Text = shop.ShopName;
                         AddressTextBox.Text = shop.Address;
                         DateTimePicker.Text = shop.DateOpen.ToString();
-                        _woods = shop.ShopWoods;
+                        numericUpWoodMaxCount.Value = shop.WoodMaxCount;
+                        _woods = shop.ShopWoods ?? new Dictionary<int, (IWoodModel, int)>();
                     }
                     LoadData();
                 }
@@ -93,6 +98,7 @@ namespace CarpentryWorkshopView
                     ShopName = NameTextBox.Text,
                     Address = AddressTextBox.Text,
                     DateOpen = DateTimePicker.Value.Date,
+                    WoodMaxCount = (int)numericUpWoodMaxCount.Value,
                     ShopWoods = _woods
                 };
                 var operationResult = _id.HasValue ? _logic.Update(model) : _logic.Create(model);

@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace CarpentryWorkshopView
 {
     public partial class FormMain : Form
@@ -158,6 +159,14 @@ namespace CarpentryWorkshopView
         {
             var service = Program.ServiceProvider?.GetService(typeof(FormSupply));
             if (service is FormSupply form)
+            {
+                form.ShowDialog();
+            }
+        }
+        private void SellToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var service = Program.ServiceProvider?.GetService(typeof(FormSell));
+            if (service is FormSell form)
             {
                 form.ShowDialog();
             }

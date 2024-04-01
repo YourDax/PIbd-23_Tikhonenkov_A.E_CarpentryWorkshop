@@ -16,6 +16,7 @@ namespace CarpentryWorkshopListImplement.Models
         public string Address { get; private set; }
         public DateTime DateOpen { get; private set; }
         public Dictionary<int, (IWoodModel, int)> ShopWoods { get; private set; } = new();
+        public int WoodMaxCount { get; private set; }
 
         public static Shop? Create(ShopBindingModel model)
         {
@@ -26,7 +27,8 @@ namespace CarpentryWorkshopListImplement.Models
                 Id = model.Id,
                 ShopName = model.ShopName,
                 Address = model.Address,
-                DateOpen = model.DateOpen
+                DateOpen = model.DateOpen,
+                WoodMaxCount = model.WoodMaxCount,
             };
         }
 

@@ -13,5 +13,6 @@ namespace CarpentryWorkshopContracts.BusinessLogicsContracts
         bool Update(ShopBindingModel model);
         bool Delete(ShopBindingModel model);
         bool MakeSupply(SupplyBindingModel model);
+        bool Sale(SupplySearchModel model);
     }
 }

@@ -33,20 +33,22 @@
             КомпонентыToolStripMenuItem = new ToolStripMenuItem();
             ИзделияToolStripMenuItem = new ToolStripMenuItem();
             магазиныToolStripMenuItem = new ToolStripMenuItem();
+            операцииToolStripMenuItem = new ToolStripMenuItem();
+            поставкаToolStripMenuItem = new ToolStripMenuItem();
+            продажаToolStripMenuItem = new ToolStripMenuItem();
             dataGridView = new DataGridView();
             ButtonCreateOrder = new Button();
             ButtonTakeOrderInWork = new Button();
             ButtonOrderReady = new Button();
             ButtonIssuedOrder = new Button();
             ButtonRef = new Button();
-            поставкаToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { справочникиToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { справочникиToolStripMenuItem, операцииToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(896, 24);
@@ -55,7 +57,7 @@
             // 
             // справочникиToolStripMenuItem
             // 
-            справочникиToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { КомпонентыToolStripMenuItem, ИзделияToolStripMenuItem, магазиныToolStripMenuItem, поставкаToolStripMenuItem });
+            справочникиToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { КомпонентыToolStripMenuItem, ИзделияToolStripMenuItem, магазиныToolStripMenuItem });
             справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
             справочникиToolStripMenuItem.Size = new Size(94, 20);
             справочникиToolStripMenuItem.Text = "Справочники";
@@ -80,6 +82,27 @@
             магазиныToolStripMenuItem.Size = new Size(180, 22);
             магазиныToolStripMenuItem.Text = "Магазины";
             магазиныToolStripMenuItem.Click += магазиныToolStripMenuItem_Click;
+            // 
+            // операцииToolStripMenuItem
+            // 
+            операцииToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { поставкаToolStripMenuItem, продажаToolStripMenuItem });
+            операцииToolStripMenuItem.Name = "операцииToolStripMenuItem";
+            операцииToolStripMenuItem.Size = new Size(75, 20);
+            операцииToolStripMenuItem.Text = "Операции";
+            // 
+            // поставкаToolStripMenuItem
+            // 
+            поставкаToolStripMenuItem.Name = "поставкаToolStripMenuItem";
+            поставкаToolStripMenuItem.Size = new Size(180, 22);
+            поставкаToolStripMenuItem.Text = "Поставка";
+            поставкаToolStripMenuItem.Click += поставкиToolStripMenuItem_Click;
+            // 
+            // продажаToolStripMenuItem
+            // 
+            продажаToolStripMenuItem.Name = "продажаToolStripMenuItem";
+            продажаToolStripMenuItem.Size = new Size(180, 22);
+            продажаToolStripMenuItem.Text = "Продажа";
+            продажаToolStripMenuItem.Click += SellToolStripMenuItem_Click;
             // 
             // dataGridView
             // 
@@ -143,13 +166,6 @@
             ButtonRef.UseVisualStyleBackColor = true;
             ButtonRef.Click += ButtonRef_Click;
             // 
-            // поставкаToolStripMenuItem
-            // 
-            поставкаToolStripMenuItem.Name = "поставкаToolStripMenuItem";
-            поставкаToolStripMenuItem.Size = new Size(180, 22);
-            поставкаToolStripMenuItem.Text = "Поставка";
-            поставкаToolStripMenuItem.Click += поставкиToolStripMenuItem_Click;
-            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -185,6 +201,8 @@
         private System.Windows.Forms.ToolStripMenuItem КомпонентыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ИзделияToolStripMenuItem;
         private ToolStripMenuItem магазиныToolStripMenuItem;
+        private ToolStripMenuItem операцииToolStripMenuItem;
         private ToolStripMenuItem поставкаToolStripMenuItem;
+        private ToolStripMenuItem продажаToolStripMenuItem;
     }
 }

@@ -151,5 +151,20 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
                 throw new InvalidOperationException("Магазин с таким названием уже есть");
             }
         }
+        public bool Sale(SupplySearchModel model)
+        {
+            if (!model.WoodId.HasValue || !model.Count.HasValue)
+            {
+                return false;
+            }
+            _logger.LogInformation("Check pizza count in all shops");
+            if (_shopStorage.Sale(model))
+            {
+                _logger.LogInformation("Selling sucsess");
+                return true;
+            }
+            _logger.LogInformation("Selling failed");
+            return false;
+        }
     }
 }

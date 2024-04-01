@@ -41,28 +41,31 @@
             Название = new DataGridViewTextBoxColumn();
             Цена = new DataGridViewTextBoxColumn();
             Количество = new DataGridViewTextBoxColumn();
+            labelCapacity = new Label();
+            numericUpWoodMaxCount = new NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)DataGridView).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpWoodMaxCount).BeginInit();
             SuspendLayout();
             // 
             // DateTimePicker
             // 
-            DateTimePicker.Location = new Point(85, 70);
+            DateTimePicker.Location = new Point(98, 70);
             DateTimePicker.Name = "DateTimePicker";
-            DateTimePicker.Size = new Size(318, 23);
+            DateTimePicker.Size = new Size(305, 23);
             DateTimePicker.TabIndex = 0;
             // 
             // NameTextBox
             // 
-            NameTextBox.Location = new Point(85, 12);
+            NameTextBox.Location = new Point(98, 12);
             NameTextBox.Name = "NameTextBox";
-            NameTextBox.Size = new Size(318, 23);
+            NameTextBox.Size = new Size(305, 23);
             NameTextBox.TabIndex = 1;
             // 
             // AddressTextBox
             // 
-            AddressTextBox.Location = new Point(85, 41);
+            AddressTextBox.Location = new Point(98, 41);
             AddressTextBox.Name = "AddressTextBox";
-            AddressTextBox.Size = new Size(318, 23);
+            AddressTextBox.Size = new Size(305, 23);
             AddressTextBox.TabIndex = 2;
             // 
             // NameLabel
@@ -94,7 +97,7 @@
             // 
             // SaveButton
             // 
-            SaveButton.Location = new Point(247, 255);
+            SaveButton.Location = new Point(248, 320);
             SaveButton.Name = "SaveButton";
             SaveButton.Size = new Size(75, 23);
             SaveButton.TabIndex = 6;
@@ -104,7 +107,7 @@
             // 
             // CancelButton
             // 
-            CancelButton.Location = new Point(328, 255);
+            CancelButton.Location = new Point(329, 320);
             CancelButton.Name = "CancelButton";
             CancelButton.Size = new Size(75, 23);
             CancelButton.TabIndex = 7;
@@ -116,9 +119,9 @@
             // 
             DataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DataGridView.Columns.AddRange(new DataGridViewColumn[] { Column1, Название, Цена, Количество });
-            DataGridView.Location = new Point(12, 99);
+            DataGridView.Location = new Point(12, 139);
             DataGridView.Name = "DataGridView";
-            DataGridView.Size = new Size(391, 150);
+            DataGridView.Size = new Size(391, 175);
             DataGridView.TabIndex = 8;
             // 
             // Column1
@@ -146,11 +149,31 @@
             Количество.Name = "Количество";
             Количество.ReadOnly = true;
             // 
+            // labelCapacity
+            // 
+            labelCapacity.AutoSize = true;
+            labelCapacity.Location = new Point(12, 103);
+            labelCapacity.Name = "labelCapacity";
+            labelCapacity.Size = new Size(80, 15);
+            labelCapacity.TabIndex = 9;
+            labelCapacity.Text = "Вместимость";
+            // 
+            // numericUpWoodMaxCount
+            // 
+            numericUpWoodMaxCount.Location = new Point(98, 101);
+            numericUpWoodMaxCount.Margin = new Padding(3, 2, 3, 2);
+            numericUpWoodMaxCount.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            numericUpWoodMaxCount.Name = "numericUpWoodMaxCount";
+            numericUpWoodMaxCount.Size = new Size(305, 23);
+            numericUpWoodMaxCount.TabIndex = 12;
+            // 
             // FormShop
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(411, 285);
+            ClientSize = new Size(411, 355);
+            Controls.Add(numericUpWoodMaxCount);
+            Controls.Add(labelCapacity);
             Controls.Add(DataGridView);
             Controls.Add(CancelButton);
             Controls.Add(SaveButton);
@@ -164,6 +187,7 @@
             Text = "Редактор магазина";
             Load += ShopForm_Load;
             ((System.ComponentModel.ISupportInitialize)DataGridView).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpWoodMaxCount).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -183,5 +207,7 @@
         private DataGridViewTextBoxColumn Название;
         private DataGridViewTextBoxColumn Цена;
         private DataGridViewTextBoxColumn Количество;
+        private Label labelCapacity;
+        private NumericUpDown numericUpWoodMaxCount;
     }
 }

@@ -100,5 +100,14 @@ namespace CarpentryWorkshopListImplement.Implements
             }
             return null;
         }
+        public bool Sale(SupplySearchModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RestockingShops(SupplyBindingModel model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

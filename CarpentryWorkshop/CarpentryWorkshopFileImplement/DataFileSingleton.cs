@@ -9,9 +9,11 @@ namespace CarpentryWorkshopFileImplement
         private readonly string ComponentFileName = "Component.xml";
         private readonly string OrderFileName = "Order.xml";
         private readonly string WoodFileName = "Wood.xml";
+        private readonly string ShopFileName = "Shop.xml";
         public List<Component> Components { get; private set; }
         public List<Order> Orders { get; private set; }
         public List<Wood> Woods { get; private set; }
+        public List<Shop> Shops { get; private set; }
         public static DataFileSingleton GetInstance()
         {
             if (instance == null)
@@ -23,11 +25,13 @@ namespace CarpentryWorkshopFileImplement
         public void SaveComponents() => SaveData(Components, ComponentFileName, "Components", x => x.GetXElement);
         public void SaveWoods() => SaveData(Woods, WoodFileName, "Woods", x => x.GetXElement);
         public void SaveOrders() => SaveData(Orders, OrderFileName, "Orders", x => x.GetXElement);
+        public void SaveShops() => SaveData(Shops, ShopFileName, "Shops", x => x.GetXElement);
         private DataFileSingleton()
         {
             Components = LoadData(ComponentFileName, "Component", x => Component.Create(x)!)!;
             Woods = LoadData(WoodFileName, "Wood", x => Wood.Create(x)!)!;
             Orders = LoadData(OrderFileName, "Order", x => Order.Create(x)!)!;
+            Shops = LoadData(ShopFileName, "Shop", x => Shop.Create(x)!)!;
         }
         private static List<T>? LoadData<T>(string filename, string xmlNodeName, Func<XElement, T> selectFunction)
         {

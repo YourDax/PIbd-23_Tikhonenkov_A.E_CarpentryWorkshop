@@ -95,10 +95,10 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
                 throw new ArgumentNullException("Цена компонента должна быть больше 0", nameof(model.Cost));
             }
             _logger.LogInformation("Component. ComponentName:{ComponentName}. Cost:{ Cost}. Id: { Id}", model.ComponentName, model.Cost, model.Id);
-        var element = _componentStorage.GetElement(new ComponentSearchModel
-        {
-            ComponentName = model.ComponentName
-        });
+            var element = _componentStorage.GetElement(new ComponentSearchModel
+            {
+                ComponentName = model.ComponentName
+            });
             if (element != null && element.Id != model.Id)
             {
                 throw new InvalidOperationException("Компонент с таким названием уже есть");

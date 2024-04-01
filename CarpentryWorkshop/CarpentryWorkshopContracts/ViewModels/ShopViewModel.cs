@@ -13,5 +13,7 @@ namespace CarpentryWorkshopContracts.ViewModels
         [DisplayName("Дата открытия")]
         public DateTime DateOpen { get; set; }
         public Dictionary<int, (IWoodModel, int)> ShopWoods { get; set; } = new();
+        [DisplayName("Вместимость")]
+        public int WoodMaxCount { get; set; }
     }
 }

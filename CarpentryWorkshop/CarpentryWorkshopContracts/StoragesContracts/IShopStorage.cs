@@ -18,5 +18,7 @@ namespace CarpentryWorkshopContracts.StoragesContracts
         ShopViewModel? Insert(ShopBindingModel model);
         ShopViewModel? Update(ShopBindingModel model);
         ShopViewModel? Delete(ShopBindingModel model);
+        bool Sale(SupplySearchModel model);
+        bool RestockingShops(SupplyBindingModel model);
     }
 }
