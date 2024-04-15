@@ -30,7 +30,7 @@ namespace CarpentryWorkshopView
             _logicS = logicS;
         }
 
-        private void FormSellingPizza_Load(object sender, EventArgs e)
+        private void FormSellingWood_Load(object sender, EventArgs e)
         {
             _woodList = _logicP.ReadList(null);
             if (_woodList != null)

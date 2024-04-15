@@ -107,7 +107,7 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "FormSell";
             Text = "Продажа изделий";
-            Load += FormSellingPizza_Load;
+            Load += FormSellingWood_Load;
             ResumeLayout(false);
             PerformLayout();
         }

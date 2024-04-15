@@ -66,7 +66,7 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
                 });
                 if (wood == null)
                 {
-                    throw new ArgumentException($"Поставка: Товар с id:{model.WoodId} не найденн");
+                    throw new ArgumentException($"Поставка: Товар с id:{model.WoodId} не найден");
                 }
                 shop.ShopWoods.Add(model.WoodId, (wood, model.Count));
             }
@@ -157,10 +157,10 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
             {
                 return false;
             }
-            _logger.LogInformation("Check pizza count in all shops");
+            _logger.LogInformation("Check wood count in all shops");
             if (_shopStorage.Sale(model))
             {
-                _logger.LogInformation("Selling sucsess");
+                _logger.LogInformation("Selling success");
                 return true;
             }
             _logger.LogInformation("Selling failed");
