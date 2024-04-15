@@ -1,4 +1,5 @@
-﻿using CarpentryWorkshopContracts.BindingModels;
+﻿using CarpentryWorkshopBusinessLogic.BusinessLogics;
+using CarpentryWorkshopContracts.BindingModels;
 using CarpentryWorkshopContracts.BusinessLogicsContracts;
 using CarpentryWorkshopContracts.SearchModels;
 using CarpentryWorkshopContracts.ViewModels;
@@ -20,12 +21,14 @@ namespace CarpentryWorkshopView
         private readonly ILogger _logger;
         private readonly IWoodLogic _logicP;
         private readonly IOrderLogic _logicO;
-        public FormCreateOrder(ILogger<FormCreateOrder> logger, IWoodLogic logicP, IOrderLogic logicO)
+        private readonly IClientLogic _clientLogic;
+        public FormCreateOrder(ILogger<FormCreateOrder> logger, IWoodLogic logicP, IOrderLogic logicO, IClientLogic clientLogic)
         {
             InitializeComponent();
             _logger = logger;
             _logicP = logicP;
             _logicO = logicO;
+            _clientLogic = clientLogic;
         }
         private void FormCreateOrder_Load(object sender, EventArgs e)
         {
@@ -38,6 +41,14 @@ namespace CarpentryWorkshopView
                 comboBoxWood.ValueMember = "Id";
                 comboBoxWood.DataSource = list;
                 comboBoxWood.SelectedItem = null;
+            }
+            var clients = _clientLogic.ReadList(null);
+            if (clients != null)
+            {
+                comboBoxClient.DisplayMember = "ClientFIO";
+                comboBoxClient.ValueMember = "Id";
+                comboBoxClient.DataSource = clients;
+                comboBoxClient.SelectedItem = null;
             }
         }
         private void CalcSum()
@@ -85,6 +96,7 @@ namespace CarpentryWorkshopView
                 var operationResult = _logicO.CreateOrder(new OrderBindingModel
                 {
                     WoodId = Convert.ToInt32(comboBoxWood.SelectedValue),
+                    ClientId = Convert.ToInt32(comboBoxClient.SelectedValue),
                     WoodName = comboBoxWood.Text,
                     Count = Convert.ToInt32(textBoxCount.Text),
                     Sum = Convert.ToDouble(textBoxSum.Text)

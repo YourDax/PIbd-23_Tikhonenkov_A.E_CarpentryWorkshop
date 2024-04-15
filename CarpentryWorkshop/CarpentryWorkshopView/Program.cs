@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 
+
 namespace CarpentryWorkshopView
 {
     internal static class Program
@@ -38,17 +39,20 @@ namespace CarpentryWorkshopView
             services.AddTransient<IComponentStorage, ComponentStorage>();
             services.AddTransient<IOrderStorage, OrderStorage>();
             services.AddTransient<IWoodStorage, WoodStorage>();
+            services.AddTransient<IClientStorage, ClientStorage>();
 
             services.AddTransient<IComponentLogic, ComponentLogic>();
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IWoodLogic, WoodLogic>();
             services.AddTransient<IReportLogic, ReportLogic>();
+            services.AddTransient<IClientLogic, ClientLogic>();
 
             services.AddTransient<AbstractSaveToExcel, SaveToExcel>();
             services.AddTransient<AbstractSaveToWord, SaveToWord>();
             services.AddTransient<AbstractSaveToPdf, SaveToPdf>();
 
             services.AddTransient<FormMain>();
+            services.AddTransient<FormClients>();
             services.AddTransient<FormComponent>();
             services.AddTransient<FormComponents>();
             services.AddTransient<FormCreateOrder>();

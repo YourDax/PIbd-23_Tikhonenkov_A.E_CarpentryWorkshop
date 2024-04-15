@@ -1,0 +1,79 @@
+﻿using CarpentryWorkshopContracts.BindingModels;
+using CarpentryWorkshopContracts.ViewModels;
+using CarpentryWorkshopDataModels.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+
+
+namespace CarpentryWorkshopFileImplement.Models
+{
+    public class Client : IClientModel
+    {
+        public string ClientFIO { get; private set; } = string.Empty;
+
+        public string Email { get; private set; } = string.Empty;
+
+        public string Password { get; private set; } = string.Empty;
+
+        public int Id { get; private set; }
+
+        public static Client? Create(ClientBindingModel model)
+        {
+            if (model == null)
+            {
+                return null;
+            }
+            return new()
+            {
+                Id = model.Id,
+                ClientFIO = model.ClientFIO,
+                Email = model.Email,
+                Password = model.Password
+            };
+        }
+        public static Client? Create(XElement element)
+        {
+            if (element == null)
+            {
+                return null;
+            }
+            return new()
+            {
+                Id = Convert.ToInt32(element.Attribute("Id")!.Value),
+                ClientFIO = element.Element("FIO")!.Value,
+                Email = element.Element("Email")!.Value,
+                Password = element.Element("Password")!.Value,
+            };
+        }
+
+        public void Update(ClientBindingModel model)
+        {
+            if (model == null)
+            {
+                return;
+            }
+            ClientFIO = model.ClientFIO;
+            Email = model.Email;
+            Password = model.Password;
+        }
+
+        public ClientViewModel GetViewModel => new()
+        {
+            Id = Id,
+            ClientFIO = ClientFIO,
+            Email = Email,
+            Password = Password,
+        };
+
+        public XElement GetXElement => new("Client",
+            new XAttribute("Id", Id),
+            new XElement("FIO", ClientFIO),
+            new XElement("Email", Email),
+            new XElement("Password", Password)
+            );
+    }
+}

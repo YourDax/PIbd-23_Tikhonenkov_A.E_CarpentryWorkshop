@@ -15,6 +15,7 @@ namespace CarpentryWorkshopListImplement.Models
     {
         public int Id { get; private set; }
         public int WoodId { get; private set; }
+        public int ClientId { get; private set; }
         public string WoodName { get; private set; }
         public int Count { get; private set; }
         public double Sum { get; private set; }
@@ -31,6 +32,7 @@ namespace CarpentryWorkshopListImplement.Models
             {
                 Id = model.Id,
                 WoodId = model.WoodId,
+                ClientId = model.ClientId,
                 WoodName = model.WoodName,
                 Count = model.Count,
                 Sum = model.Sum,
@@ -45,18 +47,14 @@ namespace CarpentryWorkshopListImplement.Models
             {
                 return;
             }
-            WoodId = model.WoodId;
-            WoodName = model.WoodName;
-            Count = model.Count;
-            Sum = model.Sum;
             Status = model.Status;
-            DateCreate = model.DateCreate;
             DateImplement = model.DateImplement;
         }
         public OrderViewModel GetViewModel => new()
         {
             Id = Id,
             WoodId = WoodId,
+            ClientId = ClientId,
             WoodName = WoodName,
             Count = Count,
             Sum = Sum,

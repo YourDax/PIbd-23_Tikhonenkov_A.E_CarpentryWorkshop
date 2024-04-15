@@ -36,6 +36,8 @@
             textBoxSum = new TextBox();
             ButtonSave = new Button();
             ButtonCancel = new Button();
+            labelClients = new Label();
+            comboBoxClient = new ComboBox();
             SuspendLayout();
             // 
             // labelWood
@@ -91,7 +93,7 @@
             // 
             // ButtonSave
             // 
-            ButtonSave.Location = new Point(257, 92);
+            ButtonSave.Location = new Point(257, 131);
             ButtonSave.Name = "ButtonSave";
             ButtonSave.Size = new Size(75, 23);
             ButtonSave.TabIndex = 6;
@@ -101,7 +103,7 @@
             // 
             // ButtonCancel
             // 
-            ButtonCancel.Location = new Point(338, 92);
+            ButtonCancel.Location = new Point(338, 131);
             ButtonCancel.Name = "ButtonCancel";
             ButtonCancel.Size = new Size(75, 23);
             ButtonCancel.TabIndex = 7;
@@ -109,11 +111,30 @@
             ButtonCancel.UseVisualStyleBackColor = true;
             ButtonCancel.Click += ButtonCancel_Click;
             // 
+            // labelClients
+            // 
+            labelClients.AutoSize = true;
+            labelClients.Location = new Point(12, 106);
+            labelClients.Name = "labelClients";
+            labelClients.Size = new Size(49, 15);
+            labelClients.TabIndex = 9;
+            labelClients.Text = "Клиент:";
+            // 
+            // comboBoxClient
+            // 
+            comboBoxClient.FormattingEnabled = true;
+            comboBoxClient.Location = new Point(121, 98);
+            comboBoxClient.Name = "comboBoxClient";
+            comboBoxClient.Size = new Size(292, 23);
+            comboBoxClient.TabIndex = 10;
+            // 
             // FormCreateOrder
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(425, 126);
+            ClientSize = new Size(425, 166);
+            Controls.Add(comboBoxClient);
+            Controls.Add(labelClients);
             Controls.Add(ButtonCancel);
             Controls.Add(ButtonSave);
             Controls.Add(textBoxSum);
@@ -139,5 +160,7 @@
         private System.Windows.Forms.TextBox textBoxSum;
         private System.Windows.Forms.Button ButtonSave;
         private System.Windows.Forms.Button ButtonCancel;
+        private Label labelClients;
+        private ComboBox comboBoxClient;
     }
 }

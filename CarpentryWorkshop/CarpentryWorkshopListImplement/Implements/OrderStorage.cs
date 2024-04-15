@@ -21,50 +21,43 @@ namespace CarpentryWorkshopListImplement.Implements
         public List<OrderViewModel> GetFullList()
         {
             var result = new List<OrderViewModel>();
-            foreach (var order in _source.Orders)
+            foreach (var Order in _source.Orders)
             {
-                result.Add(order.GetViewModel);
+                result.Add(GetViewModel(Order));
             }
             return result;
         }
         public List<OrderViewModel> GetFilteredList(OrderSearchModel model)
         {
             var result = new List<OrderViewModel>();
-            if (!model.Id.HasValue && !model.DateFrom.HasValue)
-            {
-                return result;
-            }
-            if (model.DateFrom.HasValue)
-            {
-                foreach (var order in _source.Orders)
-                {
-                    if (order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
-                    {
-                        result.Add(order.GetViewModel);
-                    }
-                }
-            }
             foreach (var order in _source.Orders)
             {
-                if (order.Id.Equals(model.Id))
+                if (order.Id == model.Id)
                 {
-                    result.Add(order.GetViewModel);
+                    return new() { GetViewModel(order) };
+                }
+                else if (model.DateFrom.HasValue && model.DateTo.HasValue && model.DateFrom <= order.DateCreate.Date && order.DateCreate.Date <= model.DateTo)
+                {
+                    result.Add(GetViewModel(order));
+                }
+                else if (model.ClientId.HasValue && order.ClientId == model.ClientId)
+                {
+                    result.Add(GetViewModel(order));
                 }
             }
             return result;
         }
         public OrderViewModel? GetElement(OrderSearchModel model)
         {
-            if (model.Id == null && !model.Id.HasValue)
+            if (!model.Id.HasValue)
             {
                 return null;
             }
-            foreach (var order in _source.Orders)
+            foreach (var Order in _source.Orders)
             {
-                if ((model.Id != null && order.Id == model.Id) ||
-                (model.Id.HasValue && order.Id == model.Id))
+                if (model.Id.HasValue && Order.Id == model.Id)
                 {
-                    return order.GetViewModel;
+                    return GetViewModel(Order);
                 }
             }
             return null;
@@ -72,11 +65,11 @@ namespace CarpentryWorkshopListImplement.Implements
         public OrderViewModel? Insert(OrderBindingModel model)
         {
             model.Id = 1;
-            foreach (var order in _source.Orders)
+            foreach (var Order in _source.Orders)
             {
-                if (model.Id <= order.Id)
+                if (model.Id <= Order.Id)
                 {
-                    model.Id = order.Id + 1;
+                    model.Id = Order.Id + 1;
                 }
             }
             var newOrder = Order.Create(model);
@@ -85,16 +78,16 @@ namespace CarpentryWorkshopListImplement.Implements
                 return null;
             }
             _source.Orders.Add(newOrder);
-            return newOrder.GetViewModel;
+            return GetViewModel(newOrder);
         }
         public OrderViewModel? Update(OrderBindingModel model)
         {
-            foreach (var order in _source.Orders)
+            foreach (var Order in _source.Orders)
             {
-                if (order.Id == model.Id)
+                if (Order.Id == model.Id)
                 {
-                    order.Update(model);
-                    return order.GetViewModel;
+                    Order.Update(model);
+                    return GetViewModel(Order);
                 }
             }
             return null;
@@ -107,10 +100,32 @@ namespace CarpentryWorkshopListImplement.Implements
                 {
                     var element = _source.Orders[i];
                     _source.Orders.RemoveAt(i);
-                    return element.GetViewModel;
+                    return GetViewModel(element);
                 }
             }
             return null;
+        }
+
+        private OrderViewModel GetViewModel(Order order)
+        {
+            var viewModel = order.GetViewModel;
+            foreach (var comp in _source.Woods)
+            {
+                if (comp.Id == order.WoodId)
+                {
+                    viewModel.WoodName = comp.WoodName;
+                    break;
+                }
+            }
+            foreach (var client in _source.Clients)
+            {
+                if (client.Id == order.ClientId)
+                {
+                    viewModel.ClientFIO = client.ClientFIO;
+                    break;
+                }
+            }
+            return viewModel;
         }
     }
 }

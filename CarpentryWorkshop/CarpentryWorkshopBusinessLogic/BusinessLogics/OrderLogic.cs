@@ -24,7 +24,7 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
         }
         public List<OrderViewModel>? ReadList(OrderSearchModel? model)
         {
-            _logger.LogInformation("ReadList. Id:{ Id}", model?.Id);
+            _logger.LogInformation("ReadList. OrderId:{Id}", model?.Id);
             var list = model == null ? _orderStorage.GetFullList() : _orderStorage.GetFilteredList(model);
             if (list == null)
             {
@@ -39,6 +39,7 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
             _orderStorage.Insert(new OrderBindingModel
             {
                 WoodId = model.WoodId,
+                ClientId = model.ClientId,
                 WoodName = model.WoodName,
                 Count = model.Count,
                 Sum = model.Sum,

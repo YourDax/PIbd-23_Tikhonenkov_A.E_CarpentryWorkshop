@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarpentryWorkshopDatabaseImplement.Migrations
 {
     [DbContext(typeof(CarpentryWorkshopDatabase))]
-    [Migration("20240331170647_InitialCreate")]
+    [Migration("20240415192521_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,10 +20,35 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "7.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Client", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClientFIO")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clients");
+                });
 
             modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Component", b =>
                 {
@@ -53,6 +78,9 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ClientId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Count")
                         .HasColumnType("integer");
 
@@ -76,6 +104,8 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("WoodId");
 
@@ -130,11 +160,21 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
 
             modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Order", b =>
                 {
-                    b.HasOne("CarpentryWorkshopDatabaseImplement.Models.Wood", null)
+                    b.HasOne("CarpentryWorkshopDatabaseImplement.Models.Client", "Client")
+                        .WithMany("Orders")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarpentryWorkshopDatabaseImplement.Models.Wood", "Wood")
                         .WithMany("Orders")
                         .HasForeignKey("WoodId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Wood");
                 });
 
             modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.WoodComponent", b =>
@@ -154,6 +194,11 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                     b.Navigation("Component");
 
                     b.Navigation("Wood");
+                });
+
+            modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Client", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Component", b =>

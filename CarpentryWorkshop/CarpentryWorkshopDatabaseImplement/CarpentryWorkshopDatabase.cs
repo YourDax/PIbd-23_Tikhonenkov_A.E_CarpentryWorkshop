@@ -14,7 +14,7 @@ namespace CarpentryWorkshopDatabaseImplement
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseNpgsql(@"Host=localhost;Port=5432;Database=CarpentryWorkshopDatabaseFull;Username=postgres;Password=postgres");
+                optionsBuilder.UseNpgsql(@"Host=localhost;Port=5432;Database=CarpentryWorkshopDatabaseLab51;Username=postgres;Password=postgres");
             }
             base.OnConfiguring(optionsBuilder);
         }
@@ -22,5 +22,6 @@ namespace CarpentryWorkshopDatabaseImplement
         public virtual DbSet<Wood> Woods { set; get; }
         public virtual DbSet<WoodComponent> WoodComponents { set; get; }
         public virtual DbSet<Order> Orders { set; get; }
+        public virtual DbSet<Client> Clients { set; get; }
     }
 }

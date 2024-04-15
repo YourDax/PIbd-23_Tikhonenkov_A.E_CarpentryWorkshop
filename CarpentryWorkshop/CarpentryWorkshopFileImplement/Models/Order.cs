@@ -16,6 +16,7 @@ namespace CarpentryWorkshopFileImplement.Models
     {
         public int Id { get; private set; }
         public int WoodId { get; private set; }
+        public int ClientId { get; set; }
         public string WoodName { get; private set; } = string.Empty;
         public int Count { get; private set; }
         public double Sum { get; private set; }
@@ -32,6 +33,7 @@ namespace CarpentryWorkshopFileImplement.Models
             {
                 Id = model.Id,
                 WoodId = model.WoodId,
+                ClientId = model.ClientId,
                 WoodName = model.WoodName,
                 Count = model.Count,
                 Sum = model.Sum,
@@ -50,6 +52,7 @@ namespace CarpentryWorkshopFileImplement.Models
             {
                 Id = Convert.ToInt32(element.Attribute("Id")!.Value),
                 WoodId = Convert.ToInt32(element.Element("WoodId")!.Value),
+                ClientId = Convert.ToInt32(element.Element("ClientId")!.Value),
                 WoodName = element.Element("WoodName")!.Value,
                 Count = Convert.ToInt32(element.Element("Count")!.Value),
                 Sum = Convert.ToDouble(element.Element("Sum")!.Value),
@@ -72,6 +75,7 @@ namespace CarpentryWorkshopFileImplement.Models
         {
             Id = Id,
             WoodId = WoodId,
+            ClientId = ClientId,
             WoodName = WoodName,
             Count = Count,
             Sum = Sum,
@@ -82,6 +86,7 @@ namespace CarpentryWorkshopFileImplement.Models
         public XElement GetXElement => new("Order",
         new XAttribute("Id", Id),
         new XElement("WoodId", WoodId),
+        new XElement("ClientId", ClientId),
         new XElement("WoodName", WoodName),
         new XElement("Count", Count),
         new XElement("Sum", Sum.ToString()),

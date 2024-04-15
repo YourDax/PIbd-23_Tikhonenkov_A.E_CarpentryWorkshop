@@ -20,15 +20,16 @@ namespace CarpentryWorkshopFileImplement.Implements
         }
         public List<OrderViewModel> GetFullList()
         {
-            return source.Orders
-            .Select(x => x.GetViewModel)
-            .ToList();
+            return source.Orders.Select(x => GetViewModel(x)).ToList();
         }
         public List<OrderViewModel> GetFilteredList(OrderSearchModel model)
         {
             if (!model.Id.HasValue && !model.DateFrom.HasValue)
             {
-                return new();
+                return source.Orders
+                    .Where(x => model.DateFrom <= x.DateCreate.Date && x.DateCreate <= model.DateTo)
+                    .Select(x => GetViewModel(x))
+                    .ToList();
             }
             if (model.DateFrom.HasValue)
             {
@@ -85,6 +86,27 @@ namespace CarpentryWorkshopFileImplement.Implements
                 return element.GetViewModel;
             }
             return null;
+        }
+        private OrderViewModel GetViewModel(Order order)
+        {
+            var viewModel = order.GetViewModel;
+            foreach (var comp in source.Woods)
+            {
+                if (comp.Id == order.WoodId)
+                {
+                    viewModel.WoodName = comp.WoodName;
+                    break;
+                }
+            }
+            foreach (var client in source.Clients)
+            {
+                if (client.Id == order.ClientId)
+                {
+                    viewModel.ClientFIO = client.ClientFIO;
+                    break;
+                }
+            }
+            return viewModel;
         }
     }
 }
