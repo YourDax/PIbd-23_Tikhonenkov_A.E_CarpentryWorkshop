@@ -17,121 +17,150 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IOrderStorage _orderStorage;
+
         public OrderLogic(ILogger<OrderLogic> logger, IOrderStorage orderStorage)
         {
             _logger = logger;
             _orderStorage = orderStorage;
         }
+
+        public bool CreateOrder(OrderBindingModel model)
+        {
+            CheckModel(model);
+
+            if (model.Status != OrderStatus.Неизвестен)
+            {
+                _logger.LogWarning("Insert operation failed. Order status incorrect.");
+                return false;
+            }
+
+            model.Status = OrderStatus.Принят;
+
+            if (_orderStorage.Insert(model) == null)
+            {
+                model.Status = OrderStatus.Неизвестен;
+                _logger.LogWarning("Insert operation failed");
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool StatusUpdate(OrderBindingModel model, OrderStatus newStatus)
+        {
+            var vmodel = _orderStorage.GetElement(new() { Id = model.Id });
+
+            if (vmodel == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            if ((int)vmodel.Status + 1 != (int)newStatus)
+            {
+                throw new InvalidOperationException($"Попытка перевести заказ не в следующий статус: " +
+                    $"Текущий статус: {vmodel.Status} \n" +
+                    $"Планируемый статус: {newStatus} \n" +
+                    $"Доступный статус: {(OrderStatus)((int)vmodel.Status + 1)}");
+            }
+
+            model.Status = newStatus;
+            model.DateCreate = vmodel.DateCreate;
+
+            if (model.DateImplement == null)
+                model.DateImplement = vmodel.DateImplement;
+
+            if (vmodel.ImplementerId.HasValue)
+                model.ImplementerId = vmodel.ImplementerId;
+
+            model.WoodId = vmodel.WoodId;
+            model.Sum = vmodel.Sum;
+            model.Count = vmodel.Count;
+
+            if (_orderStorage.Update(model) == null)
+            {
+                _logger.LogWarning("Update operation failed");
+
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool TakeOrderInWork(OrderBindingModel model)
+        {
+            return StatusUpdate(model, OrderStatus.Выполняется);
+        }
+
+        public bool DeliveryOrder(OrderBindingModel model)
+        {
+            model.DateImplement = DateTime.Now;
+            return StatusUpdate(model, OrderStatus.Готов);
+        }
+
+        public bool FinishOrder(OrderBindingModel model)
+        {
+            return StatusUpdate(model, OrderStatus.Выдан);
+        }
+
         public List<OrderViewModel>? ReadList(OrderSearchModel? model)
         {
-            _logger.LogInformation("ReadList. OrderId:{Id}", model?.Id);
+            _logger.LogInformation("Order. OrderId:{Id}", model?.Id);
+
             var list = model == null ? _orderStorage.GetFullList() : _orderStorage.GetFilteredList(model);
+
             if (list == null)
             {
                 _logger.LogWarning("ReadList return null list");
                 return null;
             }
+
             _logger.LogInformation("ReadList. Count:{Count}", list.Count);
             return list;
         }
-        public bool CreateOrder(OrderBindingModel model)
+
+        private bool CheckModel(OrderBindingModel model)
         {
-            _orderStorage.Insert(new OrderBindingModel
+            if (model == null)
             {
-                WoodId = model.WoodId,
-                ClientId = model.ClientId,
-                WoodName = model.WoodName,
-                Count = model.Count,
-                Sum = model.Sum,
-                Status = OrderStatus.Принят,
-                DateCreate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)
-            }); ;
+                throw new ArgumentNullException(nameof(model));
+            }
+            if (model.Count <= 0)
+            {
+                throw new ArgumentException("Количество изделий в заказе должно быть больше 0", nameof(model.Count));
+            }
+            if (model.Sum <= 0)
+            {
+                throw new ArgumentException("Суммарная стоимость заказа должна быть больше 0", nameof(model.Sum));
+            }
+            if (model.DateCreate > model.DateImplement)
+            {
+                throw new ArgumentException("Время создания заказа не может быть больше времени его выполнения", nameof(model.DateImplement));
+            }
+
             return true;
         }
-        public bool TakeOrderInWork(OrderBindingModel model)
+
+        public OrderViewModel? ReadElement(OrderSearchModel model)
         {
-            var order = _orderStorage.GetElement(new OrderSearchModel
+            if (model == null)
             {
-                Id = model.Id
-            });
-            if (order == null)
-            {
-                throw new Exception("Элемент не найден");
-            }
-            if (order.Status.ToString() != "Принят")
-            {
-                throw new Exception("Заказ не в статусе \"Принят\"");
-            }
-            _orderStorage.Update(new OrderBindingModel
-            {
-                Id = order.Id,
-                WoodId = order.WoodId,
-                WoodName = order.WoodName,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate,
-
-                Status = OrderStatus.Выполняется
-            });
-            return true;
-        }
-        public bool FinishOrder(OrderBindingModel model)
-        {
-            var order = _orderStorage.GetElement(new OrderSearchModel
-            {
-                Id = model.Id
-            });
-            if (order == null)
-            {
-                throw new Exception("Не найден заказ");
-            }
-            if (order.Status.ToString() != "Выполняется")
-            {
-                throw new Exception("Заказ не в статусе \"Выполняется\"");
-            }
-            _orderStorage.Update(new OrderBindingModel
-            {
-                Id = order.Id,
-                WoodId = order.WoodId,
-                WoodName = order.WoodName,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate,
-                DateImplement = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc),
-                Status = OrderStatus.Готов
-            });
-            return true;
-        }
-        public bool DeliveryOrder(OrderBindingModel model)
-        {
-            var order = _orderStorage.GetElement(new OrderSearchModel
-            {
-                Id = model.Id
-            });
-            if (order == null)
-            {
-                throw new Exception("Не найден заказ");
+                throw new ArgumentNullException(nameof(model));
             }
 
-            if (order.Status.ToString() != "Готов")
+            _logger.LogInformation("ReadElement. Id:{ Id}", model.Id);
+
+            var element = _orderStorage.GetElement(model);
+
+            if (element == null)
             {
-                throw new Exception("Заказ не в статусе \"Готов\"");
+                _logger.LogWarning("ReadElement element not found");
+
+                return null;
             }
 
-            _orderStorage.Update(new OrderBindingModel
-            {
-                Id = order.Id,
-                WoodId = order.WoodId,
-                WoodName = order.WoodName,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate,
-                DateImplement = order.DateImplement,
-                Status = OrderStatus.Выдан
-            });
-            return true;
+            _logger.LogInformation("ReadElement find. Id:{Id}", element.Id);
 
+            return element;
         }
     }
 }
-
