@@ -11,6 +11,6 @@ namespace CarpentryWorkshopContracts.ViewModels
         public string WoodName { get; set; } = string.Empty;
 
         public double Sum { get; set; }
-        public string Status { get; set; }
+        public string Status { get; set; } = string.Empty ;
     }
 }

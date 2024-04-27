@@ -37,6 +37,8 @@
             списокИзделийToolStripMenuItem = new ToolStripMenuItem();
             списокКомпонентовПоИзделиямToolStripMenuItem = new ToolStripMenuItem();
             списокЗаказовToolStripMenuItem = new ToolStripMenuItem();
+            запускРаботToolStripMenuItem = new ToolStripMenuItem();
+            исполнителиToolStripMenuItem = new ToolStripMenuItem();
             dataGridView = new DataGridView();
             ButtonCreateOrder = new Button();
             ButtonTakeOrderInWork = new Button();
@@ -49,7 +51,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { справочникиToolStripMenuItem, отчетыToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { справочникиToolStripMenuItem, отчетыToolStripMenuItem, запускРаботToolStripMenuItem, исполнителиToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1174, 24);
@@ -111,6 +113,20 @@
             списокЗаказовToolStripMenuItem.Size = new Size(265, 22);
             списокЗаказовToolStripMenuItem.Text = "Список заказов";
             списокЗаказовToolStripMenuItem.Click += списокЗаказовToolStripMenuItem_Click;
+            // 
+            // запускРаботToolStripMenuItem
+            // 
+            запускРаботToolStripMenuItem.Name = "запускРаботToolStripMenuItem";
+            запускРаботToolStripMenuItem.Size = new Size(92, 20);
+            запускРаботToolStripMenuItem.Text = "Запуск Работ";
+            запускРаботToolStripMenuItem.Click += запускРаботToolStripMenuItem_Click;
+            // 
+            // исполнителиToolStripMenuItem
+            // 
+            исполнителиToolStripMenuItem.Name = "исполнителиToolStripMenuItem";
+            исполнителиToolStripMenuItem.Size = new Size(94, 20);
+            исполнителиToolStripMenuItem.Text = "Исполнители";
+            исполнителиToolStripMenuItem.Click += исполнителиToolStripMenuItem_Click;
             // 
             // dataGridView
             // 
@@ -212,5 +228,7 @@
         private ToolStripMenuItem списокКомпонентовПоИзделиямToolStripMenuItem;
         private ToolStripMenuItem списокЗаказовToolStripMenuItem;
         private ToolStripMenuItem ClientsToolStripMenuItem;
+        private ToolStripMenuItem запускРаботToolStripMenuItem;
+        private ToolStripMenuItem исполнителиToolStripMenuItem;
     }
 }

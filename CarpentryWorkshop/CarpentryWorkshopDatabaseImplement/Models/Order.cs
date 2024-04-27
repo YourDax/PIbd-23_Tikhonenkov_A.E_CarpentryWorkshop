@@ -2,33 +2,43 @@
 using CarpentryWorkshopContracts.ViewModels;
 using CarpentryWorkshopDataModels.Enums;
 using CarpentryWorkshopDataModels.Models;
-using CarpentryWorkshopDatabaseImplement.Models;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata;
 
 namespace CarpentryWorkshopDatabaseImplement.Models
 {
     public class Order : IOrderModel
     {
-        public int Id { get; set; }
+        public int Id { get; private set; }
+        [ForeignKey("WoodId")]
+        public int WoodId { get; private set; }
+        [ForeignKey("ImplementerId")]
+        public int? ImplementerId { get; private set; }
+        [ForeignKey("ClientId")]
         [Required]
-        public int WoodId { get; set; }
-        [Required]
-        public int ClientId { get; private set; }
-        [Required]
-        public string WoodName { get; set; } = string.Empty;
-        [Required]
-        public int Count { get; set; }
-        [Required]
-        public double Sum { get; set; }
-        [Required]
-        public OrderStatus Status { get; set; }
-        [Required]
-        public DateTime DateCreate { get; set; }
+        public int ClientId { get; set; }
 
-        public DateTime? DateImplement { get; set; }
+        [Required]
+        public int Count { get; private set; }
+
+        [Required]
+        public double Sum { get; private set; }
+
+        [Required]
+        public OrderStatus Status { get; private set; } = OrderStatus.Неизвестен;
+
+        [Required]
+        public DateTime DateCreate { get; private set; } = DateTime.Now;
+
+        public DateTime? DateImplement { get; private set; }
+
         public virtual Wood Wood { get; set; }
-        public virtual Client Client { get; set; }
 
+        public Client Client { get; set; }
+
+        public Implementer? Implementer { get; set; }
 
         public static Order? Create(OrderBindingModel? model)
         {
@@ -36,12 +46,13 @@ namespace CarpentryWorkshopDatabaseImplement.Models
             {
                 return null;
             }
+
             return new Order()
             {
                 Id = model.Id,
                 WoodId = model.WoodId,
                 ClientId = model.ClientId,
-                WoodName = model.WoodName,
+                ImplementerId = model.ImplementerId,
                 Count = model.Count,
                 Sum = model.Sum,
                 Status = model.Status,
@@ -56,24 +67,32 @@ namespace CarpentryWorkshopDatabaseImplement.Models
             {
                 return;
             }
-            
             Status = model.Status;
-            
             DateImplement = model.DateImplement;
+            ImplementerId = model.ImplementerId;
         }
 
-        public OrderViewModel GetViewModel => new()
+        public OrderViewModel GetViewModel
         {
-            Id = Id,
-            WoodId = WoodId,
-            ClientId = ClientId,
-            ClientFIO = Client.ClientFIO,
-            Count = Count,
-            Sum = Sum,
-            Status = Status,
-            DateCreate = DateCreate,
-            DateImplement = DateImplement,
-            WoodName = Wood.WoodName
-        };
+            get
+            {
+                using var context = new CarpentryWorkshopDatabase();
+                return new OrderViewModel
+                {
+                    Id = Id,
+                    WoodId = WoodId,
+                    ClientId = ClientId,
+                    ImplementerId = ImplementerId,
+                    ClientFIO = context.Clients.FirstOrDefault(x => x.Id == ClientId)?.ClientFIO ?? string.Empty,
+                    WoodName = context.Woods.FirstOrDefault(x => x.Id == WoodId)?.WoodName ?? string.Empty,
+                    Count = Count,
+                    Sum = Sum,
+                    Status = Status,
+                    DateCreate = DateCreate,
+                    DateImplement = DateImplement,
+                    ImplementerFIO = Implementer?.ImplementerFIO ?? string.Empty
+                };
+            }
+        }
     }
 }

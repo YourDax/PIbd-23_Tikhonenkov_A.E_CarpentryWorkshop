@@ -11,7 +11,7 @@ namespace CarpentryWorkshopDataModels.Models
     {
         int WoodId { get; }
         int ClientId { get; }
-        string WoodName{ get;}
+        int? ImplementerId { get; }
         int Count { get; }
         double Sum { get; }
         OrderStatus Status { get; }
