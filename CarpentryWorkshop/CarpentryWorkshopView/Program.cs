@@ -40,12 +40,15 @@ namespace CarpentryWorkshopView
             services.AddTransient<IOrderStorage, OrderStorage>();
             services.AddTransient<IWoodStorage, WoodStorage>();
             services.AddTransient<IClientStorage, ClientStorage>();
+            services.AddTransient<IImplementerStorage, ImplementerStorage>();
 
             services.AddTransient<IComponentLogic, ComponentLogic>();
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IWoodLogic, WoodLogic>();
             services.AddTransient<IReportLogic, ReportLogic>();
             services.AddTransient<IClientLogic, ClientLogic>();
+            services.AddTransient<IImplementerLogic, ImplementerLogic>();
+            services.AddTransient<IWorkProcess, WorkModeling>();
 
             services.AddTransient<AbstractSaveToExcel, SaveToExcel>();
             services.AddTransient<AbstractSaveToWord, SaveToWord>();
@@ -61,6 +64,8 @@ namespace CarpentryWorkshopView
             services.AddTransient<FormWoods>();
             services.AddTransient<FormReportWoodComponents>();
             services.AddTransient<FormReportOrders>();
+            services.AddTransient<FormImplementer>();
+            services.AddTransient<FormImplementers>();
         }
     }
 }

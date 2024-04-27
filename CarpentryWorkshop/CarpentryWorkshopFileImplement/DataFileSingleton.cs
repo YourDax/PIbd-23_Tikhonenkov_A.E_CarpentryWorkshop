@@ -10,10 +10,12 @@ namespace CarpentryWorkshopFileImplement
         private readonly string OrderFileName = "Order.xml";
         private readonly string WoodFileName = "Wood.xml";
         private readonly string ClientFileName = "Client.xml";
+        private readonly string ImplementerFileName = "Implementer.xml";
         public List<Component> Components { get; private set; }
         public List<Order> Orders { get; private set; }
         public List<Wood> Woods { get; private set; }
         public List<Client> Clients { get; private set; }
+        public List<Implementer> Implementers { get; private set; }
         public static DataFileSingleton GetInstance()
         {
             if (instance == null)
@@ -25,12 +27,16 @@ namespace CarpentryWorkshopFileImplement
         public void SaveComponents() => SaveData(Components, ComponentFileName, "Components", x => x.GetXElement);
         public void SaveWoods() => SaveData(Woods, WoodFileName, "Woods", x => x.GetXElement);
         public void SaveOrders() => SaveData(Orders, OrderFileName, "Orders", x => x.GetXElement);
-        public void SaveClients() => SaveData(Clients, OrderFileName, "Clients", x => x.GetXElement);
+        public void SaveClients() => SaveData(Clients, ClientFileName, "Clients", x => x.GetXElement);
+
+        public void SaveImplementers() => SaveData(Implementers, ImplementerFileName, "Implementers", x => x.GetXElement);
         private DataFileSingleton()
         {
             Components = LoadData(ComponentFileName, "Component", x => Component.Create(x)!)!;
             Woods = LoadData(WoodFileName, "Wood", x => Wood.Create(x)!)!;
             Orders = LoadData(OrderFileName, "Order", x => Order.Create(x)!)!;
+            Clients = LoadData(ClientFileName, "Client", x => Client.Create(x)!)!;
+            Implementers = LoadData(ImplementerFileName, "Implementer", x => Implementer.Create(x)!)!;
         }
         private static List<T>? LoadData<T>(string filename, string xmlNodeName, Func<XElement, T> selectFunction)
         {

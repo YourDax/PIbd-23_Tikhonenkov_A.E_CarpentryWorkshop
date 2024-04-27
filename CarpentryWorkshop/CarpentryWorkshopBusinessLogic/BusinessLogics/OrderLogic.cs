@@ -93,7 +93,7 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
 
         public bool DeliveryOrder(OrderBindingModel model)
         {
-            model.DateImplement = DateTime.Now;
+            model.DateImplement = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
             return StatusUpdate(model, OrderStatus.Готов);
         }
 

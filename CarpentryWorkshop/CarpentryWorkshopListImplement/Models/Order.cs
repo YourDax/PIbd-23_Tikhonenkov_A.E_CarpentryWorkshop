@@ -1,4 +1,5 @@
 ﻿using CarpentryWorkshopContracts.BindingModels;
+using CarpentryWorkshopContracts.SearchModels;
 using CarpentryWorkshopContracts.ViewModels;
 using CarpentryWorkshopDataModels.Enums;
 using CarpentryWorkshopDataModels.Models;
@@ -13,15 +14,22 @@ namespace CarpentryWorkshopListImplement.Models
 {
     public class Order : IOrderModel
     {
-        public int Id { get; private set; }
         public int WoodId { get; private set; }
+
         public int ClientId { get; private set; }
-        public string WoodName { get; private set; }
+
         public int Count { get; private set; }
+
         public double Sum { get; private set; }
-        public OrderStatus Status { get; private set; }
-        public DateTime DateCreate { get; private set; }
+
+        public OrderStatus Status { get; private set; } = OrderStatus.Неизвестен;
+
+        public DateTime DateCreate { get; private set; } = DateTime.Now;
+
         public DateTime? DateImplement { get; private set; }
+
+        public int Id { get; private set; }
+
         public static Order? Create(OrderBindingModel? model)
         {
             if (model == null)
@@ -32,8 +40,8 @@ namespace CarpentryWorkshopListImplement.Models
             {
                 Id = model.Id,
                 WoodId = model.WoodId,
+                ImplementerId = model.ImplementerId,
                 ClientId = model.ClientId,
-                WoodName = model.WoodName,
                 Count = model.Count,
                 Sum = model.Sum,
                 Status = model.Status,
@@ -41,6 +49,7 @@ namespace CarpentryWorkshopListImplement.Models
                 DateImplement = model.DateImplement
             };
         }
+
         public void Update(OrderBindingModel? model)
         {
             if (model == null)
@@ -50,17 +59,20 @@ namespace CarpentryWorkshopListImplement.Models
             Status = model.Status;
             DateImplement = model.DateImplement;
         }
+
         public OrderViewModel GetViewModel => new()
         {
             Id = Id,
             WoodId = WoodId,
             ClientId = ClientId,
-            WoodName = WoodName,
             Count = Count,
             Sum = Sum,
             Status = Status,
             DateCreate = DateCreate,
-            DateImplement = DateImplement
+            DateImplement = DateImplement,
+            ImplementerId = ImplementerId
         };
+
+        public int? ImplementerId { get; private set; }
     }
 }

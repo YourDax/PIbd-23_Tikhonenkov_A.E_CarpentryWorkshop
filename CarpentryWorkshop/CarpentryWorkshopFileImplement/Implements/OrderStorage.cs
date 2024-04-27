@@ -14,99 +14,128 @@ namespace CarpentryWorkshopFileImplement.Implements
     public class OrderStorage : IOrderStorage
     {
         private readonly DataFileSingleton source;
+
         public OrderStorage()
         {
             source = DataFileSingleton.GetInstance();
         }
-        public List<OrderViewModel> GetFullList()
-        {
-            return source.Orders.Select(x => GetViewModel(x)).ToList();
-        }
-        public List<OrderViewModel> GetFilteredList(OrderSearchModel model)
-        {
-            if (!model.Id.HasValue && !model.DateFrom.HasValue)
-            {
-                return source.Orders
-                    .Where(x => model.DateFrom <= x.DateCreate.Date && x.DateCreate <= model.DateTo)
-                    .Select(x => GetViewModel(x))
-                    .ToList();
-            }
-            if (model.DateFrom.HasValue)
-            {
-                return source.Orders
-                    .Where(x => x.DateCreate >= model.DateFrom && x.DateCreate <= model.DateTo)
-                    .Select(x => x.GetViewModel)
-                    .ToList();
-            }
-            return source.Orders
-            .Where(x => x.Id == model.Id)
-            .Select(x => x.GetViewModel)
-            .ToList();
-        }
-        public OrderViewModel? GetElement(OrderSearchModel model)
-        {
-            if (model.Id == null && !model.Id.HasValue)
-            {
-                return null;
-            }
-            return source.Orders
-            .FirstOrDefault(x => (model.Id != null && x.Id == model.Id) ||
-            (model.Id.HasValue && x.Id == model.Id))
-            ?.GetViewModel;
-        }
-        public OrderViewModel? Insert(OrderBindingModel model)
-        {
-            model.Id = source.Orders.Count > 0 ? source.Orders.Max(x => x.Id) + 1 : 1;
-            var newOrder = Order.Create(model); if (newOrder == null)
-            {
-                return null;
-            }
-            source.Orders.Add(newOrder);
-            source.SaveOrders();
-            return newOrder.GetViewModel;
-        }
-        public OrderViewModel? Update(OrderBindingModel model)
-        {
-            var order = source.Orders.FirstOrDefault(x => x.Id == model.Id);
-            if (order == null)
-            {
-                return null;
-            }
-            order.Update(model);
-            source.SaveOrders();
-            return order.GetViewModel;
-        }
+
         public OrderViewModel? Delete(OrderBindingModel model)
         {
             var element = source.Orders.FirstOrDefault(x => x.Id == model.Id);
+
             if (element != null)
             {
                 source.Orders.Remove(element);
                 source.SaveOrders();
+
                 return element.GetViewModel;
             }
+
             return null;
+        }
+
+        public OrderViewModel? GetElement(OrderSearchModel model)
+        {
+            if (model.ImplementerId.HasValue && model.Statuses != null)
+            {
+                return source.Orders
+                    .FirstOrDefault(x => x.ImplementerId == model.ImplementerId &&
+                                         model.Statuses.Contains(x.Status))
+                    ?.GetViewModel;
+            }
+
+            if (model.ImplementerId.HasValue)
+            {
+                return source.Orders
+                    .FirstOrDefault(x => x.ImplementerId == model.ImplementerId)
+                    ?.GetViewModel;
+            }
+
+            if (!model.Id.HasValue)
+            {
+                return null;
+            }
+
+            return source.Orders
+                .FirstOrDefault(x => (model.Id.HasValue && x.Id == model.Id))
+                ?.GetViewModel;
         }
         private OrderViewModel GetViewModel(Order order)
         {
             var viewModel = order.GetViewModel;
-            foreach (var comp in source.Woods)
-            {
-                if (comp.Id == order.WoodId)
-                {
-                    viewModel.WoodName = comp.WoodName;
-                    break;
-                }
-            }
-            foreach (var client in source.Clients)
-            {
-                if (client.Id == order.ClientId)
-                {
-                    viewModel.ClientFIO = client.ClientFIO;
-                    break;
-                }
-            }
+
+            var wood = source
+                .Woods.FirstOrDefault(x => x.Id == order.WoodId);
+
+            var client = source
+                .Clients.FirstOrDefault(x => x.Id == order.ClientId);
+
+            if (wood != null)
+                viewModel.WoodName = wood.WoodName;
+
+            if (client != null)
+                viewModel.ClientFIO = client.ClientFIO;
+
             return viewModel;
+        }
+        public List<OrderViewModel> GetFilteredList(OrderSearchModel model)
+        {
+            if (model.DateFrom.HasValue)
+                return source.Orders
+                    .Where(x => x.DateCreate >= model.DateFrom && x.DateCreate <= model.DateTo)
+                    .Select(x => GetViewModel(x))
+                    .ToList();
+
+            if (model.ClientId.HasValue && !model.Id.HasValue)
+                return source.Orders
+                    .Where(x => x.ClientId == model.ClientId)
+                    .Select(x => x.GetViewModel)
+                    .ToList();
+
+            if (model.Id.HasValue)
+                return source.Orders
+                    .Where(x => x.Id.Equals(model.Id))
+                    .Select(x => GetViewModel(x))
+                    .ToList();
+
+            return new();
+        }
+
+        public List<OrderViewModel> GetFullList()
+        {
+            return source.Orders.Select(x => x.GetViewModel).ToList();
+        }
+
+        public OrderViewModel? Insert(OrderBindingModel model)
+        {
+            model.Id = source.Orders.Count > 0 ? source.Orders.Max(x => x.Id) + 1 : 1;
+            var newOrder = Order.Create(model);
+
+            if (newOrder == null)
+            {
+                return null;
+            }
+
+            source.Orders.Add(newOrder);
+            source.SaveOrders();
+
+            return newOrder.GetViewModel;
+        }
+
+        public OrderViewModel? Update(OrderBindingModel model)
+        {
+            var order = source.Orders.FirstOrDefault(x => x.Id == model.Id);
+
+            if (order == null)
+            {
+                return null;
+            }
+
+            order.Update(model);
+            source.SaveOrders();
+
+            return order.GetViewModel;
         }
     }
 }

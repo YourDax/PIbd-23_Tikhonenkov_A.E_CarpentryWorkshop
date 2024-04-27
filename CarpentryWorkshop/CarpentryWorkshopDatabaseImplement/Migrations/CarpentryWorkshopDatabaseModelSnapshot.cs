@@ -67,6 +67,33 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                     b.ToTable("Components");
                 });
 
+            modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Implementer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImplementerFIO")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Qualification")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WorkExperience")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Implementers");
+                });
+
             modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -87,6 +114,9 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                     b.Property<DateTime?>("DateImplement")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int?>("ImplementerId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
@@ -96,13 +126,11 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                     b.Property<int>("WoodId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("WoodName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("ImplementerId");
 
                     b.HasIndex("WoodId");
 
@@ -163,6 +191,10 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CarpentryWorkshopDatabaseImplement.Models.Implementer", "Implementer")
+                        .WithMany("Order")
+                        .HasForeignKey("ImplementerId");
+
                     b.HasOne("CarpentryWorkshopDatabaseImplement.Models.Wood", "Wood")
                         .WithMany("Orders")
                         .HasForeignKey("WoodId")
@@ -170,6 +202,8 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                         .IsRequired();
 
                     b.Navigation("Client");
+
+                    b.Navigation("Implementer");
 
                     b.Navigation("Wood");
                 });
@@ -201,6 +235,11 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
             modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Component", b =>
                 {
                     b.Navigation("WoodComponents");
+                });
+
+            modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Implementer", b =>
+                {
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Wood", b =>

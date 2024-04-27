@@ -42,6 +42,22 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Implementers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ImplementerFIO = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    WorkExperience = table.Column<int>(type: "integer", nullable: false),
+                    Qualification = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Implementers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Woods",
                 columns: table => new
                 {
@@ -62,8 +78,8 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     WoodId = table.Column<int>(type: "integer", nullable: false),
+                    ImplementerId = table.Column<int>(type: "integer", nullable: true),
                     ClientId = table.Column<int>(type: "integer", nullable: false),
-                    WoodName = table.Column<string>(type: "text", nullable: false),
                     Count = table.Column<int>(type: "integer", nullable: false),
                     Sum = table.Column<double>(type: "double precision", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
@@ -79,6 +95,11 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                         principalTable: "Clients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Implementers_ImplementerId",
+                        column: x => x.ImplementerId,
+                        principalTable: "Implementers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Orders_Woods_WoodId",
                         column: x => x.WoodId,
@@ -120,6 +141,11 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Orders_ImplementerId",
+                table: "Orders",
+                column: "ImplementerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_WoodId",
                 table: "Orders",
                 column: "WoodId");
@@ -146,6 +172,9 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
 
             migrationBuilder.DropTable(
                 name: "Clients");
+
+            migrationBuilder.DropTable(
+                name: "Implementers");
 
             migrationBuilder.DropTable(
                 name: "Components");
