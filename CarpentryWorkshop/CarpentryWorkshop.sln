@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarpentryWorkshopDatabaseIm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarpentryWorkshopRestApi", "CarpentryWorkshopRestApi\CarpentryWorkshopRestApi.csproj", "{5B3828AF-D9D0-475D-9860-DF7A7BF139D3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarpentryWorkshopClientApp", "..\..\..\..\Users\Leo\Desktop\123\pibd-21_spasskiy.a.d._carpentryworkshop28\CarpentryWorkshopClientApp\CarpentryWorkshopClientApp.csproj", "{A3182B93-4DB6-4EBD-ACE5-43FDD59ED96D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarpentryWorkshopClientApp", "CarpentryWorkshopClientApp\CarpentryWorkshopClientApp.csproj", "{9F21487D-B5B2-43DD-952D-BAAD1A416353}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,10 +59,10 @@ Global
 		{5B3828AF-D9D0-475D-9860-DF7A7BF139D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B3828AF-D9D0-475D-9860-DF7A7BF139D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B3828AF-D9D0-475D-9860-DF7A7BF139D3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3182B93-4DB6-4EBD-ACE5-43FDD59ED96D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3182B93-4DB6-4EBD-ACE5-43FDD59ED96D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3182B93-4DB6-4EBD-ACE5-43FDD59ED96D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3182B93-4DB6-4EBD-ACE5-43FDD59ED96D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F21487D-B5B2-43DD-952D-BAAD1A416353}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F21487D-B5B2-43DD-952D-BAAD1A416353}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F21487D-B5B2-43DD-952D-BAAD1A416353}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F21487D-B5B2-43DD-952D-BAAD1A416353}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

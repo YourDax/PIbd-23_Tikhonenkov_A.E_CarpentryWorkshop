@@ -52,7 +52,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { справочникиToolStripMenuItem, отчетыToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(896, 24);
+            menuStrip1.Size = new Size(1174, 24);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -66,21 +66,21 @@
             // КомпонентыToolStripMenuItem
             // 
             КомпонентыToolStripMenuItem.Name = "КомпонентыToolStripMenuItem";
-            КомпонентыToolStripMenuItem.Size = new Size(180, 22);
+            КомпонентыToolStripMenuItem.Size = new Size(145, 22);
             КомпонентыToolStripMenuItem.Text = "Компоненты";
             КомпонентыToolStripMenuItem.Click += КомпонентыToolStripMenuItem_Click;
             // 
             // ИзделияToolStripMenuItem
             // 
             ИзделияToolStripMenuItem.Name = "ИзделияToolStripMenuItem";
-            ИзделияToolStripMenuItem.Size = new Size(180, 22);
+            ИзделияToolStripMenuItem.Size = new Size(145, 22);
             ИзделияToolStripMenuItem.Text = "Изделия";
             ИзделияToolStripMenuItem.Click += ИзделияToolStripMenuItem_Click;
             // 
             // ClientsToolStripMenuItem
             // 
             ClientsToolStripMenuItem.Name = "ClientsToolStripMenuItem";
-            ClientsToolStripMenuItem.Size = new Size(180, 22);
+            ClientsToolStripMenuItem.Size = new Size(145, 22);
             ClientsToolStripMenuItem.Text = "Клиенты";
             ClientsToolStripMenuItem.Click += clientsToolStripMenuItem_Click;
             // 
@@ -117,15 +117,15 @@
             dataGridView.BackgroundColor = SystemColors.ButtonHighlight;
             dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView.EnableHeadersVisualStyles = false;
-            dataGridView.Location = new Point(1, 32);
+            dataGridView.Location = new Point(12, 32);
             dataGridView.MultiSelect = false;
             dataGridView.Name = "dataGridView";
-            dataGridView.Size = new Size(755, 243);
+            dataGridView.Size = new Size(1022, 371);
             dataGridView.TabIndex = 1;
             // 
             // ButtonCreateOrder
             // 
-            ButtonCreateOrder.Location = new Point(762, 44);
+            ButtonCreateOrder.Location = new Point(1040, 32);
             ButtonCreateOrder.Name = "ButtonCreateOrder";
             ButtonCreateOrder.Size = new Size(122, 23);
             ButtonCreateOrder.TabIndex = 2;
@@ -135,7 +135,7 @@
             // 
             // ButtonTakeOrderInWork
             // 
-            ButtonTakeOrderInWork.Location = new Point(762, 73);
+            ButtonTakeOrderInWork.Location = new Point(1040, 61);
             ButtonTakeOrderInWork.Name = "ButtonTakeOrderInWork";
             ButtonTakeOrderInWork.Size = new Size(122, 42);
             ButtonTakeOrderInWork.TabIndex = 3;
@@ -145,7 +145,7 @@
             // 
             // ButtonOrderReady
             // 
-            ButtonOrderReady.Location = new Point(762, 121);
+            ButtonOrderReady.Location = new Point(1040, 109);
             ButtonOrderReady.Name = "ButtonOrderReady";
             ButtonOrderReady.Size = new Size(122, 23);
             ButtonOrderReady.TabIndex = 4;
@@ -155,7 +155,7 @@
             // 
             // ButtonIssuedOrder
             // 
-            ButtonIssuedOrder.Location = new Point(762, 150);
+            ButtonIssuedOrder.Location = new Point(1040, 138);
             ButtonIssuedOrder.Name = "ButtonIssuedOrder";
             ButtonIssuedOrder.Size = new Size(122, 23);
             ButtonIssuedOrder.TabIndex = 5;
@@ -165,7 +165,7 @@
             // 
             // ButtonRef
             // 
-            ButtonRef.Location = new Point(762, 179);
+            ButtonRef.Location = new Point(1040, 167);
             ButtonRef.Name = "ButtonRef";
             ButtonRef.Size = new Size(122, 23);
             ButtonRef.TabIndex = 6;
@@ -177,7 +177,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(896, 280);
+            ClientSize = new Size(1174, 415);
             Controls.Add(ButtonRef);
             Controls.Add(ButtonIssuedOrder);
             Controls.Add(ButtonOrderReady);
