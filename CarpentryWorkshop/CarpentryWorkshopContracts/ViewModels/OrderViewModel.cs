@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@ namespace CarpentryWorkshopContracts.ViewModels
         [DisplayName("Статус")]
         public OrderStatus Status { get; set; } = OrderStatus.Неизвестен;
         [DisplayName("Дата создания")]
-        public DateTime DateCreate { get; set; } = DateTime.Now;
+        public DateTime DateCreate { get; set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
         [DisplayName("Дата выполнения")]
         public DateTime? DateImplement { get; set; }
     }

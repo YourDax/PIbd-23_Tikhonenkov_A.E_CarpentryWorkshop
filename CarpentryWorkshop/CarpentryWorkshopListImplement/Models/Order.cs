@@ -24,7 +24,7 @@ namespace CarpentryWorkshopListImplement.Models
 
         public OrderStatus Status { get; private set; } = OrderStatus.Неизвестен;
 
-        public DateTime DateCreate { get; private set; } = DateTime.Now;
+        public DateTime DateCreate { get; private set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
 
         public DateTime? DateImplement { get; private set; }
 

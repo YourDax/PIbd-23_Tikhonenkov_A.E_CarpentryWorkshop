@@ -30,7 +30,7 @@ namespace CarpentryWorkshopDatabaseImplement.Models
         public OrderStatus Status { get; private set; } = OrderStatus.Неизвестен;
 
         [Required]
-        public DateTime DateCreate { get; private set; } = DateTime.Now;
+        public DateTime DateCreate { get; private set; }
 
         public DateTime? DateImplement { get; private set; }
 
