@@ -69,7 +69,9 @@ namespace CarpentryWorkshopBusinessLogic.MailWorker
 						}
 					}
 				}
-				finally
+                catch (MailKit.Security.AuthenticationException)
+                { }
+                finally
 				{
 					client.Disconnect(true);
 				}

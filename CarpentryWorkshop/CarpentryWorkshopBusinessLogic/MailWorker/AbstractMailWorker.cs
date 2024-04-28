@@ -6,12 +6,12 @@ namespace CarpentryWorkshopBusinessLogic.MailWorker
 {
 	public abstract class AbstractMailWorker
 	{
-		protected string _mailLogin;
-		protected string _mailPassword;
-		protected string _smtpClientHost;
-		protected int _smtpClientPort;
-		protected string _popHost;
-		protected int _popPort;
+        protected string _mailLogin = string.Empty;
+        protected string _mailPassword = string.Empty;
+        protected string _smtpClientHost = string.Empty;
+        protected int _smtpClientPort;
+        protected string _popHost = string.Empty;
+        protected int _popPort;
 		private IMessageInfoLogic _messageInfoLogic;
 		public AbstractMailWorker(IMessageInfoLogic messageInfoLogic)
 		{

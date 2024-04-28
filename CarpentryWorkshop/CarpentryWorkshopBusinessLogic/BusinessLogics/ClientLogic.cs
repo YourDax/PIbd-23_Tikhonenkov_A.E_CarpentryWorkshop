@@ -114,7 +114,7 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
             {
                 throw new ArgumentException("Неправильно введенный email", nameof(model.Email));
             }
-            if (!Regex.IsMatch(model.Password, @"^^((\w+\d+\W+)|(\w+\W+\d+)|(\d+\w+\W+)|(\d+\W+\w+)|(\W+\w+\d+)|(\W+\d+\w+))[\w\d\W]*$", RegexOptions.IgnoreCase) || model.Password.Length < 10 || model.Password.Length > 50)
+            if (!Regex.IsMatch(model.Password, @"^^((\w+\d+\W+)|(\w+\W+\d+)|(\d+\w+\W+)|(\d+\W+\w+)|(\W+\w+\d+)|(\W+\d+\w+))[\w\d\W]*$", RegexOptions.IgnoreCase) || model.Password.Length < 3 || model.Password.Length > 50)
             {
                 throw new ArgumentException("Неправильно введенный пароль", nameof(model.Password));
             }
