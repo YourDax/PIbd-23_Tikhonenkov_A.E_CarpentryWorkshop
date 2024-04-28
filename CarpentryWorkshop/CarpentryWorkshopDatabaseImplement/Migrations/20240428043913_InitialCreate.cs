@@ -72,6 +72,27 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MessageInfos",
+                columns: table => new
+                {
+                    MessageId = table.Column<string>(type: "text", nullable: false),
+                    ClientId = table.Column<int>(type: "integer", nullable: true),
+                    SenderName = table.Column<string>(type: "text", nullable: false),
+                    DateDelivery = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Subject = table.Column<string>(type: "text", nullable: false),
+                    Body = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MessageInfos", x => x.MessageId);
+                    table.ForeignKey(
+                        name: "FK_MessageInfos_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -136,6 +157,11 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_MessageInfos_ClientId",
+                table: "MessageInfos",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_ClientId",
                 table: "Orders",
                 column: "ClientId");
@@ -164,6 +190,9 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "MessageInfos");
+
             migrationBuilder.DropTable(
                 name: "Orders");
 

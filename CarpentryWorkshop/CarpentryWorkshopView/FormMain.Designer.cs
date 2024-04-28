@@ -45,13 +45,14 @@
             ButtonOrderReady = new Button();
             ButtonIssuedOrder = new Button();
             ButtonRef = new Button();
+            письмаToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { справочникиToolStripMenuItem, отчетыToolStripMenuItem, запускРаботToolStripMenuItem, исполнителиToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { справочникиToolStripMenuItem, отчетыToolStripMenuItem, запускРаботToolStripMenuItem, исполнителиToolStripMenuItem, письмаToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1174, 24);
@@ -189,6 +190,13 @@
             ButtonRef.UseVisualStyleBackColor = true;
             ButtonRef.Click += ButtonRef_Click;
             // 
+            // письмаToolStripMenuItem
+            // 
+            письмаToolStripMenuItem.Name = "письмаToolStripMenuItem";
+            письмаToolStripMenuItem.Size = new Size(62, 20);
+            письмаToolStripMenuItem.Text = "Письма";
+            письмаToolStripMenuItem.Click += письмаToolStripMenuItem_Click;
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -230,5 +238,6 @@
         private ToolStripMenuItem ClientsToolStripMenuItem;
         private ToolStripMenuItem запускРаботToolStripMenuItem;
         private ToolStripMenuItem исполнителиToolStripMenuItem;
+        private ToolStripMenuItem письмаToolStripMenuItem;
     }
 }

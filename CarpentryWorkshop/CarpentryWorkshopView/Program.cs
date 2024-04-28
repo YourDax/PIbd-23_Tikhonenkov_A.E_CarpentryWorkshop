@@ -7,6 +7,8 @@ using CarpentryWorkshopDatabaseImplement.Implements;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using CarpentryWorkshopBusinessLogic.MailWorker;
+using CarpentryWorkshopContracts.BindingModels;
 
 
 namespace CarpentryWorkshopView
@@ -27,6 +29,26 @@ namespace CarpentryWorkshopView
             var services = new ServiceCollection();
             ConfigureServices(services);
             _serviceProvider = services.BuildServiceProvider();
+            try
+            {
+                var mailSender = _serviceProvider.GetService<AbstractMailWorker>();
+                mailSender?.MailConfig(new MailConfigBindingModel
+                {
+                    MailLogin = System.Configuration.ConfigurationManager.AppSettings["MailLogin"] ?? string.Empty,
+                    MailPassword = System.Configuration.ConfigurationManager.AppSettings["MailPassword"] ?? string.Empty,
+                    SmtpClientHost = System.Configuration.ConfigurationManager.AppSettings["SmtpClientHost"] ?? string.Empty,
+                    SmtpClientPort = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["SmtpClientPort"]),
+                    PopHost = System.Configuration.ConfigurationManager.AppSettings["PopHost"] ?? string.Empty,
+                    PopPort = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["PopPort"])
+                });
+
+                var timer = new System.Threading.Timer(new TimerCallback(MailCheck!), null, 0, 100000);
+            }
+            catch (Exception ex)
+            {
+                var logger = _serviceProvider.GetService<ILogger>();
+                logger?.LogError(ex, "Error");
+            }
             Application.Run(_serviceProvider.GetRequiredService<FormMain>());
         }
         private static void ConfigureServices(ServiceCollection services)
@@ -41,6 +63,7 @@ namespace CarpentryWorkshopView
             services.AddTransient<IWoodStorage, WoodStorage>();
             services.AddTransient<IClientStorage, ClientStorage>();
             services.AddTransient<IImplementerStorage, ImplementerStorage>();
+            services.AddTransient<IMessageInfoStorage, MessageInfoStorage>();
 
             services.AddTransient<IComponentLogic, ComponentLogic>();
             services.AddTransient<IOrderLogic, OrderLogic>();
@@ -48,7 +71,9 @@ namespace CarpentryWorkshopView
             services.AddTransient<IReportLogic, ReportLogic>();
             services.AddTransient<IClientLogic, ClientLogic>();
             services.AddTransient<IImplementerLogic, ImplementerLogic>();
+            services.AddTransient<IMessageInfoLogic, MessageInfoLogic>();
             services.AddTransient<IWorkProcess, WorkModeling>();
+            services.AddSingleton<AbstractMailWorker, MailKitWorker>();
 
             services.AddTransient<AbstractSaveToExcel, SaveToExcel>();
             services.AddTransient<AbstractSaveToWord, SaveToWord>();
@@ -66,6 +91,8 @@ namespace CarpentryWorkshopView
             services.AddTransient<FormReportOrders>();
             services.AddTransient<FormImplementer>();
             services.AddTransient<FormImplementers>();
+            services.AddTransient<FormMail>();
         }
+        private static void MailCheck(object obj) => ServiceProvider?.GetService<AbstractMailWorker>()?.MailCheck();
     }
 }

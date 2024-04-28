@@ -16,50 +16,37 @@ namespace CarpentryWorkshopDatabaseImplement.Implements
         public ClientViewModel? Delete(ClientBindingModel model)
         {
             using var context = new CarpentryWorkshopDatabase();
-            var res = context.Clients.FirstOrDefault(x => x.Id == model.Id);
-            if (res != null)
+            var element = context.Clients.FirstOrDefault(rec => rec.Id == model.Id);
+            if (element != null)
             {
-                context.Clients.Remove(res);
+                context.Clients.Remove(element);
                 context.SaveChanges();
+                return element.GetViewModel;
             }
-            return res?.GetViewModel;
+            return null;
         }
 
         public ClientViewModel? GetElement(ClientSearchModel model)
         {
+            if (string.IsNullOrEmpty(model.Email) && string.IsNullOrEmpty(model.Password) && !model.Id.HasValue)
+            {
+                return null;
+            }
             using var context = new CarpentryWorkshopDatabase();
-            if (model.Id.HasValue)
-                return context.Clients.FirstOrDefault(x => x.Id == model.Id)?.GetViewModel;
-            if (model.Email != null && model.Password != null)
-                return context.Clients
-                    .FirstOrDefault(x => x.Email.Equals(model.Email)
-                                      && x.Password.Equals(model.Password))
-                    ?.GetViewModel;
-            if (model.Email != null)
-                return context.Clients.FirstOrDefault(x => x.Email.Equals(model.Email))?.GetViewModel;
-            return null;
+            return context.Clients.FirstOrDefault(x => (model.Id.HasValue && x.Id == model.Id) ||
+                (!string.IsNullOrEmpty(model.ClientFIO) && x.ClientFIO == model.ClientFIO) ||
+                (!string.IsNullOrEmpty(model.Email) && x.Email == model.Email && (string.IsNullOrEmpty(model.Password) || x.Password == model.Password)))?.GetViewModel;
+
         }
 
         public List<ClientViewModel> GetFilteredList(ClientSearchModel model)
         {
-            if (model == null)
+            if (string.IsNullOrEmpty(model.ClientFIO))
             {
                 return new();
             }
-            if (model.Id.HasValue)
-            {
-                var res = GetElement(model);
-                return res != null ? new() { res } : new();
-            }
-            if (model.Email != null)
-            {
-                using var context = new CarpentryWorkshopDatabase();
-                return context.Clients
-                    .Where(x => x.Email.Contains(model.Email))
-                    .Select(x => x.GetViewModel)
-                    .ToList();
-            }
-            return new();
+            using var context = new CarpentryWorkshopDatabase();
+            return context.Clients.Where(x => x.ClientFIO.Contains(model.ClientFIO)).Select(x => x.GetViewModel).ToList();
         }
 
         public List<ClientViewModel> GetFullList()
@@ -70,23 +57,28 @@ namespace CarpentryWorkshopDatabaseImplement.Implements
 
         public ClientViewModel? Insert(ClientBindingModel model)
         {
-            using var context = new CarpentryWorkshopDatabase();
-            var res = Client.Create(model);
-            if (res != null)
+            var newComponent = Client.Create(model);
+            if (newComponent == null)
             {
-                context.Clients.Add(res);
-                context.SaveChanges();
+                return null;
             }
-            return res?.GetViewModel;
+            using var context = new CarpentryWorkshopDatabase();
+            context.Clients.Add(newComponent);
+            context.SaveChanges();
+            return newComponent.GetViewModel;
         }
 
         public ClientViewModel? Update(ClientBindingModel model)
         {
             using var context = new CarpentryWorkshopDatabase();
-            var res = context.Clients.FirstOrDefault(x => x.Id == model.Id);
-            res?.Update(model);
+            var component = context.Clients.FirstOrDefault(x => x.Id == model.Id);
+            if (component == null)
+            {
+                return null;
+            }
+            component.Update(model);
             context.SaveChanges();
-            return res?.GetViewModel;
+            return component.GetViewModel;
         }
     }
 }

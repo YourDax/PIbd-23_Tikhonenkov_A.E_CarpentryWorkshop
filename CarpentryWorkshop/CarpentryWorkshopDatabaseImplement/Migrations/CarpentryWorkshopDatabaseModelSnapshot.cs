@@ -94,6 +94,36 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                     b.ToTable("Implementers");
                 });
 
+            modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.MessageInfo", b =>
+                {
+                    b.Property<string>("MessageId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("DateDelivery")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("SenderName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("MessageInfos");
+                });
+
             modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -183,10 +213,19 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                     b.ToTable("WoodComponents");
                 });
 
+            modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.MessageInfo", b =>
+                {
+                    b.HasOne("CarpentryWorkshopDatabaseImplement.Models.Client", "Client")
+                        .WithMany("ClientMessages")
+                        .HasForeignKey("ClientId");
+
+                    b.Navigation("Client");
+                });
+
             modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Order", b =>
                 {
                     b.HasOne("CarpentryWorkshopDatabaseImplement.Models.Client", "Client")
-                        .WithMany("Orders")
+                        .WithMany("ClientOrders")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -229,7 +268,9 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
 
             modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Client", b =>
                 {
-                    b.Navigation("Orders");
+                    b.Navigation("ClientMessages");
+
+                    b.Navigation("ClientOrders");
                 });
 
             modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Component", b =>

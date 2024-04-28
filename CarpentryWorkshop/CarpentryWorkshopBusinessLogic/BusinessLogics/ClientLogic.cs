@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace CarpentryWorkshopBusinessLogic.BusinessLogics
@@ -16,11 +17,13 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IClientStorage _clientStorage;
+
         public ClientLogic(ILogger<ClientLogic> logger, IClientStorage clientStorage)
         {
             _logger = logger;
             _clientStorage = clientStorage;
         }
+
         public bool Create(ClientBindingModel model)
         {
             CheckModel(model);
@@ -50,7 +53,7 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
             {
                 throw new ArgumentNullException(nameof(model));
             }
-            _logger.LogInformation("ReadElement. ClientFIO:{ClientFIO}. Id:{ Id}", model.ClientFIO, model.Id);
+            _logger.LogInformation("ReadElement. ClientFIO:{ClientFIO}. Email: {Email}. Id:{ Id}", model.ClientFIO, model.Email, model.Id);
             var element = _clientStorage.GetElement(model);
             if (element == null)
             {
@@ -63,7 +66,7 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
 
         public List<ClientViewModel>? ReadList(ClientSearchModel? model)
         {
-            _logger.LogInformation("ReadList. ClientFIO:{ClientFIO}. Id:{Id}", model?.ClientFIO, model?.Id);
+            _logger.LogInformation("ReadList. ClientId:{Id}", model?.Id);
             var list = model == null ? _clientStorage.GetFullList() : _clientStorage.GetFilteredList(model);
             if (list == null)
             {
@@ -84,6 +87,7 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
             }
             return true;
         }
+
         private void CheckModel(ClientBindingModel model, bool withParams = true)
         {
             if (model == null)
@@ -96,24 +100,32 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
             }
             if (string.IsNullOrEmpty(model.ClientFIO))
             {
-                throw new ArgumentNullException("Нет ФИО клиента", nameof(model.ClientFIO));
+                throw new ArgumentNullException("Нет ФИО пользователя", nameof(model.ClientFIO));
             }
             if (string.IsNullOrEmpty(model.Email))
             {
-                throw new ArgumentNullException("У клиента отсутствует почта", nameof(model.Email));
+                throw new ArgumentNullException("Нет почты клиента", nameof(model.Email));
             }
             if (string.IsNullOrEmpty(model.Password))
             {
-                throw new ArgumentNullException("У клиента отсутствует пароль", nameof(model.Email));
+                throw new ArgumentNullException("Нет пароля клиента", nameof(model.Password));
             }
-            _logger.LogInformation("Client. ClientID:{Id}. ClientFIO: {ClientFIO}. Email:{ Email}. Password: { Password}", model.Id, model.ClientFIO, model.Email, model.Password);
+            if (!Regex.IsMatch(model.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase))
+            {
+                throw new ArgumentException("Неправильно введенный email", nameof(model.Email));
+            }
+            if (!Regex.IsMatch(model.Password, @"^^((\w+\d+\W+)|(\w+\W+\d+)|(\d+\w+\W+)|(\d+\W+\w+)|(\W+\w+\d+)|(\W+\d+\w+))[\w\d\W]*$", RegexOptions.IgnoreCase) || model.Password.Length < 10 || model.Password.Length > 50)
+            {
+                throw new ArgumentException("Неправильно введенный пароль", nameof(model.Password));
+            }
+            _logger.LogInformation("Client. ClientFIO:{ClientFIO}.Email:{Email}.Id:{Id}", model.ClientFIO, model.Email, model.Id);
             var element = _clientStorage.GetElement(new ClientSearchModel
             {
                 Email = model.Email
             });
             if (element != null && element.Id != model.Id)
             {
-                throw new InvalidOperationException("Такой клиент уже существует");
+                throw new InvalidOperationException("Клиент с таким именем уже есть");
             }
         }
     }

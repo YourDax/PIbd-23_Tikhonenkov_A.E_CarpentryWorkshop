@@ -149,5 +149,14 @@ namespace CarpentryWorkshopClientApp.Controllers
             var prod = APIClient.GetRequest<WoodViewModel>($"api/main/getwood?woodId={wood}");
             return count * (prod?.Price ?? 1);
         }
+        [HttpGet]
+        public IActionResult Mails()
+        {
+            if (APIClient.Client == null)
+            {
+                return Redirect("~/Home/Enter");
+            }
+            return View(APIClient.GetRequest<List<MessageInfoViewModel>>($"api/client/getmessages?clientId={APIClient.Client.Id}"));
+        }
     }
 }

@@ -197,5 +197,13 @@ namespace CarpentryWorkshopView
                 form.ShowDialog();
             }
         }
+        private void письмаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var service = Program.ServiceProvider?.GetService(typeof(FormMail));
+            if (service is FormMail form)
+            {
+                form.ShowDialog();
+            }
+        }
     }
 }

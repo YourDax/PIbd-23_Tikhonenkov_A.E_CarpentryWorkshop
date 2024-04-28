@@ -10,6 +10,7 @@ namespace CarpentryWorkshopListImplement
         public List<Wood> Woods { get; set; }
         public List<Client> Clients { get; set; }
         public List<Implementer> Implementers { get; set; }
+        public List<Message> Messages { get; set; }
         private DataListSingleton()
         {
             Components = new List<Component>();
@@ -17,6 +18,7 @@ namespace CarpentryWorkshopListImplement
             Woods = new List<Wood>();
             Clients = new List<Client>();
             Implementers = new List<Implementer>();
+            Messages = new List<Message>();
         }
         public static DataListSingleton GetInstance()
         {

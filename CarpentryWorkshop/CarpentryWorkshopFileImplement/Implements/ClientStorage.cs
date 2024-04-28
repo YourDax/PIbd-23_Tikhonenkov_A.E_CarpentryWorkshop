@@ -13,84 +13,81 @@ namespace CarpentryWorkshopFileImplement.Implements
 {
     public class ClientStorage : IClientStorage
     {
-        private readonly DataFileSingleton _source;
+        private readonly DataFileSingleton source;
+
         public ClientStorage()
         {
-            _source = DataFileSingleton.GetInstance();
-        }
-
-        public ClientViewModel? Delete(ClientBindingModel model)
-        {
-            var res = _source.Clients.FirstOrDefault(x => x.Id == model.Id);
-            if (res != null)
-            {
-                _source.Clients.Remove(res);
-                _source.SaveClients();
-            }
-            return res?.GetViewModel;
-        }
-
-        public ClientViewModel? GetElement(ClientSearchModel model)
-        {
-            if (model.Id.HasValue)
-                return _source.Clients.FirstOrDefault(x => x.Id == model.Id)?.GetViewModel;
-            if (model.Email != null && model.Password != null)
-                return _source.Clients
-                    .FirstOrDefault(x => x.Email.Equals(model.Email)
-                                      && x.Password.Equals(model.Password))
-                    ?.GetViewModel;
-            if (model.Email != null)
-                return _source.Clients.FirstOrDefault(x => x.Email.Equals(model.Email))?.GetViewModel;
-            return null;
-        }
-
-        public List<ClientViewModel> GetFilteredList(ClientSearchModel model)
-        {
-            if (model == null)
-            {
-                return new();
-            }
-            if (model.Id.HasValue)
-            {
-                var res = GetElement(model);
-                return res != null ? new() { res } : new();
-            }
-            if (model.Email != null)
-            {
-                return _source.Clients
-                    .Where(x => x.Email.Contains(model.Email))
-                    .Select(x => x.GetViewModel)
-                    .ToList();
-            }
-            return new();
+            source = DataFileSingleton.GetInstance();
         }
 
         public List<ClientViewModel> GetFullList()
         {
-            return _source.Clients.Select(x => x.GetViewModel).ToList();
+            return source.Clients
+                .Select(x => x.GetViewModel)
+                .ToList();
+        }
+
+        public List<ClientViewModel> GetFilteredList(ClientSearchModel model)
+        {
+            if (string.IsNullOrEmpty(model.ClientFIO) && string.IsNullOrEmpty(model.Email))
+            {
+                return new();
+            }
+            return source.Clients
+                    .Where(x => (!string.IsNullOrEmpty(model.ClientFIO) && x.ClientFIO.Contains(model.ClientFIO)) ||
+                        (!string.IsNullOrEmpty(model.Email) && x.ClientFIO.Contains(model.Email)))
+                    .Select(x => x.GetViewModel)
+                    .ToList();
+        }
+
+        public ClientViewModel? GetElement(ClientSearchModel model)
+        {
+            if (!model.Id.HasValue && string.IsNullOrEmpty(model.ClientFIO) && string.IsNullOrEmpty(model.Email) && string.IsNullOrEmpty(model.Password))
+            {
+                return null;
+            }
+            return source.Clients
+                    .FirstOrDefault(x => (model.Id.HasValue && x.Id == model.Id) ||
+                        (!string.IsNullOrEmpty(model.ClientFIO) && x.ClientFIO == model.ClientFIO) ||
+                        (!string.IsNullOrEmpty(model.Email) && !string.IsNullOrEmpty(model.Password) && x.Email == model.Email && x.Password == model.Password))
+                    ?.GetViewModel;
         }
 
         public ClientViewModel? Insert(ClientBindingModel model)
         {
-            model.Id = _source.Clients.Count > 0 ? _source.Clients.Max(x => x.Id) + 1 : 1;
-            var res = Client.Create(model);
-            if (res != null)
+            model.Id = source.Components.Count > 0 ? source.Components.Max(x => x.Id) + 1 : 1;
+            var newClient = Client.Create(model);
+            if (newClient == null)
             {
-                _source.Clients.Add(res);
-                _source.SaveClients();
+                return null;
             }
-            return res?.GetViewModel;
+            source.Clients.Add(newClient);
+            source.SaveClients();
+            return newClient.GetViewModel;
         }
 
         public ClientViewModel? Update(ClientBindingModel model)
         {
-            var res = _source.Clients.FirstOrDefault(x => x.Id == model.Id);
-            if (res != null)
+            var client = source.Clients.FirstOrDefault(x => x.Id == model.Id);
+            if (client == null)
             {
-                res.Update(model);
-                _source.SaveClients();
+                return null;
             }
-            return res?.GetViewModel;
+            client.Update(model);
+            source.SaveClients();
+            return client.GetViewModel;
+        }
+
+        public ClientViewModel? Delete(ClientBindingModel model)
+        {
+            var element = source.Clients.FirstOrDefault(x => x.Id == model.Id);
+            if (element != null)
+            {
+                source.Clients.Remove(element);
+                source.SaveClients();
+                return element.GetViewModel;
+            }
+            return null;
         }
     }
 }

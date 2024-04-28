@@ -1,4 +1,5 @@
-﻿using CarpentryWorkshopContracts.BindingModels;
+﻿using CarpentryWorkshopBusinessLogic.MailWorker;
+using CarpentryWorkshopContracts.BindingModels;
 using CarpentryWorkshopContracts.BusinessLogicsContracts;
 using CarpentryWorkshopContracts.SearchModels;
 using CarpentryWorkshopContracts.StoragesContracts;
@@ -7,9 +8,11 @@ using CarpentryWorkshopDataModels.Enums;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace CarpentryWorkshopBusinessLogic.BusinessLogics
 {
@@ -17,11 +20,15 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IOrderStorage _orderStorage;
+        private readonly AbstractMailWorker _mailWorker;
+        private readonly IClientLogic _clientLogic;
 
-        public OrderLogic(ILogger<OrderLogic> logger, IOrderStorage orderStorage)
+        public OrderLogic(ILogger<OrderLogic> logger, IOrderStorage orderStorage, AbstractMailWorker mailWorker, IClientLogic clientLogic)
         {
             _logger = logger;
             _orderStorage = orderStorage;
+            _mailWorker = mailWorker;
+            _clientLogic = clientLogic;
         }
 
         public bool CreateOrder(OrderBindingModel model)
@@ -35,13 +42,16 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
             }
 
             model.Status = OrderStatus.Принят;
+            var result = _orderStorage.Insert(model);
 
-            if (_orderStorage.Insert(model) == null)
+            if (result == null)
             {
                 model.Status = OrderStatus.Неизвестен;
                 _logger.LogWarning("Insert operation failed");
                 return false;
             }
+
+            SendOrderMessage(result.ClientId, $"Установка ПО, Заказ №{result.Id}", $"Заказ №{result.Id} от {result.DateCreate} на сумму {result.Sum:0.00} принят");
 
             return true;
         }
@@ -76,12 +86,35 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
             model.Sum = vmodel.Sum;
             model.Count = vmodel.Count;
 
-            if (_orderStorage.Update(model) == null)
+            var result = _orderStorage.Update(model);
+
+            if (result == null)
             {
                 _logger.LogWarning("Update operation failed");
 
                 return false;
             }
+
+
+            SendOrderMessage(result.ClientId, $"Установка ПО, Заказ №{result.Id}", $"Заказ №{model.Id} изменен статус на {result.Status}");
+            return true;
+        }
+
+        private bool SendOrderMessage(int clientId, string subject, string text)
+        {
+            var client = _clientLogic.ReadElement(new() { Id = clientId });
+
+            if (client == null)
+            {
+                return false;
+            }
+
+            _mailWorker.MailSendAsync(new()
+            {
+                MailAddress = client.Email,
+                Subject = subject,
+                Text = text
+            });
 
             return true;
         }
@@ -93,7 +126,7 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
 
         public bool DeliveryOrder(OrderBindingModel model)
         {
-            model.DateImplement = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+            model.DateImplement = DateTime.Now;
             return StatusUpdate(model, OrderStatus.Готов);
         }
 
@@ -118,26 +151,29 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
             return list;
         }
 
-        private bool CheckModel(OrderBindingModel model)
+        private void CheckModel(OrderBindingModel model, bool withParams = true)
         {
             if (model == null)
             {
                 throw new ArgumentNullException(nameof(model));
             }
+            if (!withParams)
+            {
+                return;
+            }
+            if (model.WoodId < 0)
+            {
+                throw new ArgumentNullException("Некорректный идентификатор у изделия", nameof(model.WoodId));
+            }
             if (model.Count <= 0)
             {
-                throw new ArgumentException("Количество изделий в заказе должно быть больше 0", nameof(model.Count));
+                throw new ArgumentNullException("Количество изделий в заказе должно быть больше 0", nameof(model.Count));
             }
             if (model.Sum <= 0)
             {
-                throw new ArgumentException("Суммарная стоимость заказа должна быть больше 0", nameof(model.Sum));
+                throw new ArgumentNullException("Сумма заказа должна быть больше 0", nameof(model.Sum));
             }
-            if (model.DateCreate > model.DateImplement)
-            {
-                throw new ArgumentException("Время создания заказа не может быть больше времени его выполнения", nameof(model.DateImplement));
-            }
-
-            return true;
+            _logger.LogInformation("Order. OrderID:{Id}. Sum:{ Sum}. WoodId: { WoodId}", model.Id, model.Sum, model.WoodId);
         }
 
         public OrderViewModel? ReadElement(OrderSearchModel model)

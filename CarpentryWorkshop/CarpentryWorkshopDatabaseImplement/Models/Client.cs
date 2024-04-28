@@ -8,14 +8,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CarpentryWorkshopDatabaseImplement.Models;
-
-
 
 namespace CarpentryWorkshopDatabaseImplement.Models
 {
     public class Client : IClientModel
     {
+        public int Id { get; set; }
+
         [Required]
         public string ClientFIO { get; set; } = string.Empty;
 
@@ -25,43 +24,36 @@ namespace CarpentryWorkshopDatabaseImplement.Models
         [Required]
         public string Password { get; set; } = string.Empty;
 
-        public int Id { get; set; }
+        [ForeignKey("ClientId")]
+        public virtual List<Order> ClientOrders { get; set; } = new();
 
         [ForeignKey("ClientId")]
-        public virtual List<Order> Orders { get; set; } = new();
-
-        public static Client? Create(ClientBindingModel model)
-        {
-            if (model == null)
-            {
-                return null;
-            }
-            return new()
-            {
-                Id = model.Id,
-                ClientFIO = model.ClientFIO,
-                Email = model.Email,
-                Password = model.Password
-            };
-        }
-
-        public void Update(ClientBindingModel model)
-        {
-            if (model == null)
-            {
-                return;
-            }
-            ClientFIO = model.ClientFIO;
-            Email = model.Email;
-            Password = model.Password;
-        }
+        public virtual List<MessageInfo> ClientMessages { get; set; } = new();
 
         public ClientViewModel GetViewModel => new()
         {
             Id = Id,
             ClientFIO = ClientFIO,
             Email = Email,
-            Password = Password,
+            Password = Password
         };
+
+        public static Client Create(ClientBindingModel model)
+        {
+            return new Client()
+            {
+                Id = model.Id,
+                ClientFIO = model.ClientFIO,
+                Email = model.Email,
+                Password = model.Password,
+            };
+        }
+
+        public void Update(ClientBindingModel model)
+        {
+            ClientFIO = model.ClientFIO;
+            Email = model.Email;
+            Password = model.Password;
+        }
     }
 }

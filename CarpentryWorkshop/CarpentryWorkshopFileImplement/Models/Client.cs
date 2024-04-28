@@ -8,18 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-
 namespace CarpentryWorkshopFileImplement.Models
 {
     public class Client : IClientModel
     {
-        public string ClientFIO { get; private set; } = string.Empty;
-
-        public string Email { get; private set; } = string.Empty;
-
-        public string Password { get; private set; } = string.Empty;
-
         public int Id { get; private set; }
+        public string ClientFIO { get; private set; } = string.Empty;
+        public string Email { get; private set; } = string.Empty;
+        public string Password { get; private set; } = string.Empty;
 
         public static Client? Create(ClientBindingModel model)
         {
@@ -27,7 +23,7 @@ namespace CarpentryWorkshopFileImplement.Models
             {
                 return null;
             }
-            return new()
+            return new Client()
             {
                 Id = model.Id,
                 ClientFIO = model.ClientFIO,
@@ -41,12 +37,12 @@ namespace CarpentryWorkshopFileImplement.Models
             {
                 return null;
             }
-            return new()
+            return new Client()
             {
                 Id = Convert.ToInt32(element.Attribute("Id")!.Value),
-                ClientFIO = element.Element("FIO")!.Value,
+                ClientFIO = element.Element("ClientFIO")!.Value,
                 Email = element.Element("Email")!.Value,
-                Password = element.Element("Password")!.Value,
+                Password = element.Element("Password")!.Value
             };
         }
 
@@ -66,14 +62,13 @@ namespace CarpentryWorkshopFileImplement.Models
             Id = Id,
             ClientFIO = ClientFIO,
             Email = Email,
-            Password = Password,
+            Password = Password
         };
 
         public XElement GetXElement => new("Client",
             new XAttribute("Id", Id),
-            new XElement("FIO", ClientFIO),
+            new XElement("ClientFIO", ClientFIO),
             new XElement("Email", Email),
-            new XElement("Password", Password)
-            );
+            new XElement("Password", Password));
     }
 }
