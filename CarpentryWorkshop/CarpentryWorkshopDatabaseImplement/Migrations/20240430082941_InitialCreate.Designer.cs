@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarpentryWorkshopDatabaseImplement.Migrations
 {
     [DbContext(typeof(CarpentryWorkshopDatabase))]
-    [Migration("20240427190111_InitialCreate")]
+    [Migration("20240430082941_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

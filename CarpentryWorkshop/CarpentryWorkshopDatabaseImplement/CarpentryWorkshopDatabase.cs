@@ -14,7 +14,7 @@ namespace CarpentryWorkshopDatabaseImplement
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseNpgsql(@"Host=localhost;Port=5432;Database=CarpentryWorkshopDatabaseLab51;Username=postgres;Password=postgres");
+                optionsBuilder.UseNpgsql(@"Host=localhost;Port=5432;Database=CarpentryWorkshopDatabaseLab6;Username=postgres;Password=postgres");
             }
             base.OnConfiguring(optionsBuilder);
         }
