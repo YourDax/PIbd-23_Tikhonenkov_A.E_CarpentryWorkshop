@@ -91,29 +91,27 @@ namespace CarpentryWorkshopDatabaseImplement.Models
         public void UpdateWoods(CarpentryWorkshopDatabase context,
        ShopBindingModel model)
         {
-            var shopWoods = context.ShopWoods.Where(rec =>
-           rec.ShopId == model.Id).ToList();
-            if (shopWoods != null && shopWoods.Count > 0)
+            var ShopWoods = context.ShopWoods.Where(rec => rec.ShopId == model.Id).ToList();
+            if (ShopWoods != null && ShopWoods.Count > 0)
             {
-                context.ShopWoods.RemoveRange(shopWoods.Where(rec => !model.ShopWoods.ContainsKey(rec.WoodId)));
-
+                context.ShopWoods.RemoveRange(ShopWoods.Where(rec => !model.ShopWoods.ContainsKey(rec.WoodId)));
                 context.SaveChanges();
-                foreach (var updateWood in shopWoods)
+                ShopWoods = context.ShopWoods.Where(rec => rec.ShopId == model.Id).ToList();
+                foreach (var updateWood in ShopWoods)
                 {
-                    updateWood.Count =
-                   model.ShopWoods[updateWood.WoodId].Item2;
+                    updateWood.Count = model.ShopWoods[updateWood.WoodId].Item2;
                     model.ShopWoods.Remove(updateWood.WoodId);
                 }
                 context.SaveChanges();
             }
             var shop = context.Shops.First(x => x.Id == Id);
-            foreach (var pc in model.ShopWoods)
+            foreach (var ar in model.ShopWoods)
             {
                 context.ShopWoods.Add(new ShopWood
                 {
                     Shop = shop,
-                    Wood = context.Woods.First(x => x.Id == pc.Key),
-                    Count = pc.Value.Item2
+                    Wood = context.Woods.First(x => x.Id == ar.Key),
+                    Count = ar.Value.Item2
                 });
                 context.SaveChanges();
             }

@@ -17,6 +17,8 @@ namespace CarpentryWorkshopDatabaseImplement
                 optionsBuilder.UseNpgsql(@"Host=localhost;Port=5432;Database=CarpentryWorkshopDatabaseFull;Username=postgres;Password=postgres");
             }
             base.OnConfiguring(optionsBuilder);
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
         }
         public virtual DbSet<Component> Components { set; get; }
         public virtual DbSet<Wood> Woods { set; get; }
