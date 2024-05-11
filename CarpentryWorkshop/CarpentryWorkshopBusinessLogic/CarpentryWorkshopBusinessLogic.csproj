@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CarpentryWorkshopContracts\CarpentryWorkshopContracts.csproj" />
+    <ProjectReference Include="..\CarpentryWorkshopDataModels\CarpentryWorkshopDataModels.csproj" />
   </ItemGroup>
 
 </Project>
