@@ -12,7 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarpentryWorkshopDatabaseImplement.Migrations
 {
     [DbContext(typeof(CarpentryWorkshopDatabase))]
+<<<<<<<< HEAD:CarpentryWorkshop/CarpentryWorkshopDatabaseImplement/Migrations/20240428043913_InitialCreate.Designer.cs
     [Migration("20240428043913_InitialCreate")]
+========
+    [Migration("20240430082941_InitialCreate")]
+>>>>>>>> Lab6:CarpentryWorkshop/CarpentryWorkshopDatabaseImplement/Migrations/20240430082941_InitialCreate.Designer.cs
     partial class InitialCreate
     {
         /// <inheritdoc />
