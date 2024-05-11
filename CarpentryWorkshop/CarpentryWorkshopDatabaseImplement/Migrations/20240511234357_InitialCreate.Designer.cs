@@ -12,11 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarpentryWorkshopDatabaseImplement.Migrations
 {
     [DbContext(typeof(CarpentryWorkshopDatabase))]
-<<<<<<<< HEAD:CarpentryWorkshop/CarpentryWorkshopDatabaseImplement/Migrations/20240428043913_InitialCreate.Designer.cs
-    [Migration("20240428043913_InitialCreate")]
-========
-    [Migration("20240430082941_InitialCreate")]
->>>>>>>> Lab6:CarpentryWorkshop/CarpentryWorkshopDatabaseImplement/Migrations/20240430082941_InitialCreate.Designer.cs
+    [Migration("20240511234357_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -114,7 +110,7 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("DateDelivery")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("SenderName")
                         .IsRequired()
@@ -146,10 +142,10 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("DateCreate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DateImplement")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int?>("ImplementerId")
                         .HasColumnType("integer");

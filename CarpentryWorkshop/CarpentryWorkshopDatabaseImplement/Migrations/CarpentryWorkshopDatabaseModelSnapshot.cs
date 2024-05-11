@@ -107,7 +107,7 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("DateDelivery")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("SenderName")
                         .IsRequired()
@@ -139,10 +139,10 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("DateCreate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DateImplement")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int?>("ImplementerId")
                         .HasColumnType("integer");

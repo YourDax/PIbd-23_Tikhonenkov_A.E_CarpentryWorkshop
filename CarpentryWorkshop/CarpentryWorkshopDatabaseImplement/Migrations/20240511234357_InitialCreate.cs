@@ -78,7 +78,7 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                     MessageId = table.Column<string>(type: "text", nullable: false),
                     ClientId = table.Column<int>(type: "integer", nullable: true),
                     SenderName = table.Column<string>(type: "text", nullable: false),
-                    DateDelivery = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DateDelivery = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Subject = table.Column<string>(type: "text", nullable: false),
                     Body = table.Column<string>(type: "text", nullable: false)
                 },
@@ -104,8 +104,8 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                     Count = table.Column<int>(type: "integer", nullable: false),
                     Sum = table.Column<double>(type: "double precision", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
-                    DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DateImplement = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    DateCreate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    DateImplement = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
