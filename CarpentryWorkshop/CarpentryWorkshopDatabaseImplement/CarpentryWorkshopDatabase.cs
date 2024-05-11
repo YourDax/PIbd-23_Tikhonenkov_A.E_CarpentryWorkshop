@@ -22,5 +22,7 @@ namespace CarpentryWorkshopDatabaseImplement
         public virtual DbSet<Wood> Woods { set; get; }
         public virtual DbSet<WoodComponent> WoodComponents { set; get; }
         public virtual DbSet<Order> Orders { set; get; }
+        public virtual DbSet<Shop> Shops { get; set; }
+        public virtual DbSet<ShopWood> ShopWoods { get; set; }
     }
 }

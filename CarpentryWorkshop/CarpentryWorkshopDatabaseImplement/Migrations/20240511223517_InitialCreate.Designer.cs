@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarpentryWorkshopDatabaseImplement.Migrations
 {
     [DbContext(typeof(CarpentryWorkshopDatabase))]
-    [Migration("20240319095810_InitialCreate")]
+    [Migration("20240511223517_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -82,6 +82,59 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Shop", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DateOpen")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ShopName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("WoodMaxCount")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Shops");
+                });
+
+            modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.ShopWood", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ShopId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WoodId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShopId");
+
+                    b.HasIndex("WoodId");
+
+                    b.ToTable("ShopWoods");
+                });
+
             modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Wood", b =>
                 {
                     b.Property<int>("Id")
@@ -137,6 +190,25 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.ShopWood", b =>
+                {
+                    b.HasOne("CarpentryWorkshopDatabaseImplement.Models.Shop", "Shop")
+                        .WithMany("Woods")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarpentryWorkshopDatabaseImplement.Models.Wood", "Wood")
+                        .WithMany("ShopWoods")
+                        .HasForeignKey("WoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Shop");
+
+                    b.Navigation("Wood");
+                });
+
             modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.WoodComponent", b =>
                 {
                     b.HasOne("CarpentryWorkshopDatabaseImplement.Models.Component", "Component")
@@ -161,11 +233,18 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                     b.Navigation("WoodComponents");
                 });
 
+            modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Shop", b =>
+                {
+                    b.Navigation("Woods");
+                });
+
             modelBuilder.Entity("CarpentryWorkshopDatabaseImplement.Models.Wood", b =>
                 {
                     b.Navigation("Components");
 
                     b.Navigation("Orders");
+
+                    b.Navigation("ShopWoods");
                 });
 #pragma warning restore 612, 618
         }

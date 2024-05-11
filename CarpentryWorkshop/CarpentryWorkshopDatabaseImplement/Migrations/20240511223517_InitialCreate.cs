@@ -27,6 +27,22 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Shops",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ShopName = table.Column<string>(type: "text", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: false),
+                    DateOpen = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    WoodMaxCount = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Shops", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Woods",
                 columns: table => new
                 {
@@ -66,6 +82,33 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ShopWoods",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    WoodId = table.Column<int>(type: "integer", nullable: false),
+                    ShopId = table.Column<int>(type: "integer", nullable: false),
+                    Count = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShopWoods", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ShopWoods_Shops_ShopId",
+                        column: x => x.ShopId,
+                        principalTable: "Shops",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ShopWoods_Woods_WoodId",
+                        column: x => x.WoodId,
+                        principalTable: "Woods",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WoodComponents",
                 columns: table => new
                 {
@@ -98,6 +141,16 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                 column: "WoodId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ShopWoods_ShopId",
+                table: "ShopWoods",
+                column: "ShopId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShopWoods_WoodId",
+                table: "ShopWoods",
+                column: "WoodId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_WoodComponents_ComponentId",
                 table: "WoodComponents",
                 column: "ComponentId");
@@ -115,7 +168,13 @@ namespace CarpentryWorkshopDatabaseImplement.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
+                name: "ShopWoods");
+
+            migrationBuilder.DropTable(
                 name: "WoodComponents");
+
+            migrationBuilder.DropTable(
+                name: "Shops");
 
             migrationBuilder.DropTable(
                 name: "Components");
