@@ -1,4 +1,5 @@
-﻿using CarpentryWorkshopDataModels.Enums;
+﻿using CarpentryWorkshopContracts.Attributes;
+using CarpentryWorkshopDataModels.Enums;
 using CarpentryWorkshopDataModels.Models;
 using System;
 using System.Collections.Generic;
@@ -12,28 +13,32 @@ namespace CarpentryWorkshopContracts.ViewModels
 {
     public class OrderViewModel : IOrderModel
     {
-        [DisplayName("Номер")]
+        [Column(title: "Номер", width: 90)]
         public int Id { get; set; }
+        [Column(visible: false)]
         public int WoodId { get; set; }
+        [Column(visible: false)]
         public int ClientId { get; set; }
+        [Column(visible: false)]
         public int? ImplementerId { get; set; }
-        [DisplayName("Фамилия клиента")]
+        [Column(title: "Имя клиента", width: 190)]
         public string ClientFIO { get; set; } = string.Empty;
 
-        [DisplayName("Фамилия исполнителя")]
+        [Column(title: "Исполнитель", width: 150)]
         public string ImplementerFIO { get; set; } = string.Empty;
 
-        [DisplayName("Изделие")]
+        [Column(title: "Изделие", width: 150)]
         public string WoodName { get; set; } = string.Empty;
-        [DisplayName("Количество")]
+
+        [Column(title: "Количество", width: 100)]
         public int Count { get; set; }
-        [DisplayName("Сумма")]
+        [Column(title: "Сумма", width: 120)]
         public double Sum { get; set; }
-        [DisplayName("Статус")]
+        [Column(title: "Статус", width: 70)]
         public OrderStatus Status { get; set; } = OrderStatus.Неизвестен;
-        [DisplayName("Дата создания")]
+        [Column(title: "Дата создания", width: 120)]
         public DateTime DateCreate { get; set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
-        [DisplayName("Дата выполнения")]
+        [Column(title: "Дата выполнения", width: 120)]
         public DateTime? DateImplement { get; set; }
     }
 }

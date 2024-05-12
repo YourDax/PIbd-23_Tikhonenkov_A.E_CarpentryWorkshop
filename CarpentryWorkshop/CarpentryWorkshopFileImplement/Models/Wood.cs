@@ -4,19 +4,28 @@ using CarpentryWorkshopDataModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace CarpentryWorkshopFileImplement.Models
 {
+    [DataContract]
     public class Wood : IWoodModel
     {
+        [DataMember]
         public int Id { get; private set; }
+
+        [DataMember]
         public string WoodName { get; private set; } = string.Empty;
+
+        [DataMember]
         public double Price { get; private set; }
         public Dictionary<int, int> Components { get; private set; } = new();
         private Dictionary<int, (IComponentModel, int)>? _woodComponents = null;
+
+        [DataMember]
         public Dictionary<int, (IComponentModel, int)> WoodComponents
         {
             get

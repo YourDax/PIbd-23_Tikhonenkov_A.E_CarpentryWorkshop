@@ -8,23 +8,30 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace CarpentryWorkshopDatabaseImplement.Models
 {
-	public class Implementer : IImplementerModel
+    [DataContract]
+    public class Implementer : IImplementerModel
 	{
-		public int Id { get; set; }
+        [DataMember]
+        public int Id { get; set; }
 
-		[Required]
+        [DataMember]
+        [Required]
 		public string ImplementerFIO { get; set; } = string.Empty;
 
-		[Required]
+        [DataMember]
+        [Required]
 		public string Password { get; set; } = string.Empty;
 
-		[Required]
+        [DataMember]
+        [Required]
 		public int WorkExperience { get; set; }
 
-		[Required]
+        [DataMember]
+        [Required]
 		public int Qualification { get; set; }
 
 		[ForeignKey("ImplementerId")]

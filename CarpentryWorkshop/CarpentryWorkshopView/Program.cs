@@ -9,14 +9,13 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using CarpentryWorkshopBusinessLogic.MailWorker;
 using CarpentryWorkshopContracts.BindingModels;
+using CarpentryWorkshopContracts.DI;
 
 
 namespace CarpentryWorkshopView
 {
     internal static class Program
     {
-        private static ServiceProvider? _serviceProvider;
-        public static ServiceProvider? ServiceProvider => _serviceProvider;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -26,12 +25,10 @@ namespace CarpentryWorkshopView
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            var services = new ServiceCollection();
-            ConfigureServices(services);
-            _serviceProvider = services.BuildServiceProvider();
+            InitDependency();
             try
             {
-                var mailSender = _serviceProvider.GetService<AbstractMailWorker>();
+                var mailSender = DependencyManager.Instance.Resolve<AbstractMailWorker>();
                 mailSender?.MailConfig(new MailConfigBindingModel
                 {
                     MailLogin = System.Configuration.ConfigurationManager.AppSettings["MailLogin"] ?? string.Empty,
@@ -46,53 +43,56 @@ namespace CarpentryWorkshopView
             }
             catch (Exception ex)
             {
-                var logger = _serviceProvider.GetService<ILogger>();
+                var logger = DependencyManager.Instance.Resolve<ILogger>();
                 logger?.LogError(ex, "Error");
             }
-            Application.Run(_serviceProvider.GetRequiredService<FormMain>());
+            Application.Run(DependencyManager.Instance.Resolve<FormMain>());
         }
-        private static void ConfigureServices(ServiceCollection services)
+        private static void InitDependency()
         {
-            services.AddLogging(option =>
+            DependencyManager.InitDependency();
+
+            DependencyManager.Instance.AddLogging(option =>
             {
                 option.SetMinimumLevel(LogLevel.Information);
                 option.AddNLog("nlog.config");
             });
-            services.AddTransient<IComponentStorage, ComponentStorage>();
-            services.AddTransient<IOrderStorage, OrderStorage>();
-            services.AddTransient<IWoodStorage, WoodStorage>();
-            services.AddTransient<IClientStorage, ClientStorage>();
-            services.AddTransient<IImplementerStorage, ImplementerStorage>();
-            services.AddTransient<IMessageInfoStorage, MessageInfoStorage>();
+            DependencyManager.Instance.RegisterType<IComponentStorage, ComponentStorage>();
+            DependencyManager.Instance.RegisterType<IOrderStorage, OrderStorage>();
+            DependencyManager.Instance.RegisterType<IWoodStorage, WoodStorage>();
+            DependencyManager.Instance.RegisterType<IClientStorage, ClientStorage>();
+            DependencyManager.Instance.RegisterType<IImplementerStorage, ImplementerStorage>();
+            DependencyManager.Instance.RegisterType<IMessageInfoStorage, MessageInfoStorage>();
+            DependencyManager.Instance.RegisterType<IBackUpLogic, BackUpLogic>();
 
-            services.AddTransient<IComponentLogic, ComponentLogic>();
-            services.AddTransient<IOrderLogic, OrderLogic>();
-            services.AddTransient<IWoodLogic, WoodLogic>();
-            services.AddTransient<IReportLogic, ReportLogic>();
-            services.AddTransient<IClientLogic, ClientLogic>();
-            services.AddTransient<IImplementerLogic, ImplementerLogic>();
-            services.AddTransient<IMessageInfoLogic, MessageInfoLogic>();
-            services.AddTransient<IWorkProcess, WorkModeling>();
-            services.AddSingleton<AbstractMailWorker, MailKitWorker>();
+            DependencyManager.Instance.RegisterType<IComponentLogic, ComponentLogic>();
+            DependencyManager.Instance.RegisterType<IOrderLogic, OrderLogic>();
+            DependencyManager.Instance.RegisterType<IWoodLogic, WoodLogic>();
+            DependencyManager.Instance.RegisterType<IReportLogic, ReportLogic>();
+            DependencyManager.Instance.RegisterType<IClientLogic, ClientLogic>();
+            DependencyManager.Instance.RegisterType<IImplementerLogic, ImplementerLogic>();
+            DependencyManager.Instance.RegisterType<IMessageInfoLogic, MessageInfoLogic>();
+            DependencyManager.Instance.RegisterType<IWorkProcess, WorkModeling>();
+            DependencyManager.Instance.RegisterType<AbstractMailWorker, MailKitWorker>(true);
 
-            services.AddTransient<AbstractSaveToExcel, SaveToExcel>();
-            services.AddTransient<AbstractSaveToWord, SaveToWord>();
-            services.AddTransient<AbstractSaveToPdf, SaveToPdf>();
+            DependencyManager.Instance.RegisterType<AbstractSaveToExcel, SaveToExcel>();
+            DependencyManager.Instance.RegisterType<AbstractSaveToWord, SaveToWord>();
+            DependencyManager.Instance.RegisterType<AbstractSaveToPdf, SaveToPdf>();
 
-            services.AddTransient<FormMain>();
-            services.AddTransient<FormClients>();
-            services.AddTransient<FormComponent>();
-            services.AddTransient<FormComponents>();
-            services.AddTransient<FormCreateOrder>();
-            services.AddTransient<FormWood>();
-            services.AddTransient<FormWoodComponent>();
-            services.AddTransient<FormWoods>();
-            services.AddTransient<FormReportWoodComponents>();
-            services.AddTransient<FormReportOrders>();
-            services.AddTransient<FormImplementer>();
-            services.AddTransient<FormImplementers>();
-            services.AddTransient<FormMail>();
+            DependencyManager.Instance.RegisterType<FormMain>();
+            DependencyManager.Instance.RegisterType<FormClients>();
+            DependencyManager.Instance.RegisterType<FormComponent>();
+            DependencyManager.Instance.RegisterType<FormComponents>();
+            DependencyManager.Instance.RegisterType<FormCreateOrder>();
+            DependencyManager.Instance.RegisterType<FormWood>();
+            DependencyManager.Instance.RegisterType<FormWoodComponent>();
+            DependencyManager.Instance.RegisterType<FormWoods>();
+            DependencyManager.Instance.RegisterType<FormReportWoodComponents>();
+            DependencyManager.Instance.RegisterType<FormReportOrders>();
+            DependencyManager.Instance.RegisterType<FormImplementer>();
+            DependencyManager.Instance.RegisterType<FormImplementers>();
+            DependencyManager.Instance.RegisterType<FormMail>();
         }
-        private static void MailCheck(object obj) => ServiceProvider?.GetService<AbstractMailWorker>()?.MailCheck();
+        private static void MailCheck(object obj) => DependencyManager.Instance.Resolve<AbstractMailWorker>()?.MailCheck();
     }
 }

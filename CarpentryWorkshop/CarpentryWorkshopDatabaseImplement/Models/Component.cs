@@ -3,16 +3,21 @@ using CarpentryWorkshopContracts.ViewModels;
 using CarpentryWorkshopDataModels.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace CarpentryWorkshopDatabaseImplement.Models
 {
+    [DataContract]
     public class Component : IComponentModel
     {
+        [DataMember]
         public int Id { get; private set; }
 
+        [DataMember]
         [Required]
         public string ComponentName { get; private set; } = string.Empty;
 
+        [DataMember]
         [Required]
         public double Cost { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using CarpentryWorkshopContracts.BindingModels;
 using CarpentryWorkshopContracts.BusinessLogicsContracts;
+using CarpentryWorkshopContracts.DI;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -34,13 +35,7 @@ namespace CarpentryWorkshopView
 		{
 			try
 			{
-				var list = _logic.ReadList(null);
-				if (list != null)
-				{
-					dataGridViewImplementers.DataSource = list;
-					dataGridViewImplementers.Columns["Id"].Visible = false;
-					dataGridViewImplementers.Columns["ImplementerFIO"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-				}
+                dataGridViewImplementers.FillAndConfigGrid(_logic.ReadList(null));
 				_logger.LogInformation("Загрузка исполнителей");
 			}
 			catch (Exception ex)
@@ -52,13 +47,10 @@ namespace CarpentryWorkshopView
 
 		private void ButtonAdd_Click(object sender, EventArgs e)
 		{
-			var service = Program.ServiceProvider?.GetService(typeof(FormImplementer));
-			if (service is FormImplementer form)
+			var form = DependencyManager.Instance.Resolve<FormImplementer>();
+			if (form.ShowDialog() == DialogResult.OK)
 			{
-				if (form.ShowDialog() == DialogResult.OK)
-				{
-					LoadData();
-				}
+				LoadData();
 			}
 		}
 
@@ -66,14 +58,11 @@ namespace CarpentryWorkshopView
 		{
 			if (dataGridViewImplementers.SelectedRows.Count == 1)
 			{
-				var service = Program.ServiceProvider?.GetService(typeof(FormImplementer));
-				if (service is FormImplementer form)
+				var form = DependencyManager.Instance.Resolve<FormImplementer>();
+				form.Id = Convert.ToInt32(dataGridViewImplementers.SelectedRows[0].Cells["Id"].Value);
+				if (form.ShowDialog() == DialogResult.OK)
 				{
-					form.Id = Convert.ToInt32(dataGridViewImplementers.SelectedRows[0].Cells["Id"].Value);
-					if (form.ShowDialog() == DialogResult.OK)
-					{
-						LoadData();
-					}
+					LoadData();
 				}
 			}
 		}

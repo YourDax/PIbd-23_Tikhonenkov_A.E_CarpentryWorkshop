@@ -1,5 +1,6 @@
 ﻿using CarpentryWorkshopContracts.BindingModels;
 using CarpentryWorkshopContracts.BusinessLogicsContracts;
+using CarpentryWorkshopContracts.DI;
 using CarpentryWorkshopContracts.SearchModels;
 using CarpentryWorkshopDataModels.Models;
 using Microsoft.Extensions.Logging;
@@ -51,27 +52,22 @@ namespace CarpentryWorkshopView
         }
         private void ButtonAdd_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormComponent));
-            if (service is FormComponent form)
+            var form = DependencyManager.Instance.Resolve<FormComponent>();
+            if (form.ShowDialog() == DialogResult.OK)
             {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    LoadData();
-                }
+                LoadData();
             }
         }
         private void ButtonUpd_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var service = Program.ServiceProvider?.GetService(typeof(FormComponent));
-                if (service is FormComponent form)
+                var form = DependencyManager.Instance.Resolve<FormComponent>();
+
+                form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells["Id"].Value);
+                if (form.ShowDialog() == DialogResult.OK)
                 {
-                    form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells["Id"].Value);
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        LoadData();
-                    }
+                    LoadData();
                 }
             }
         }

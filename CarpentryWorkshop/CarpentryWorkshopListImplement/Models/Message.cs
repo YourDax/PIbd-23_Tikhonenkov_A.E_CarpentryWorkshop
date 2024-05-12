@@ -6,6 +6,7 @@ namespace CarpentryWorkshopListImplement.Models
 {
     public class Message : IMessageInfoModel
     {
+        public int Id => throw new NotImplementedException();
         public string MessageId { get; private set; } = string.Empty;
 
         public int? ClientId { get; private set; }

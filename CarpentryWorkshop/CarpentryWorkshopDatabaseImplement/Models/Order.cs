@@ -6,32 +6,44 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection.Metadata;
+using System.Runtime.Serialization;
 
 namespace CarpentryWorkshopDatabaseImplement.Models
 {
+    [DataContract]
     public class Order : IOrderModel
     {
+        [DataMember]
         public int Id { get; private set; }
-        [ForeignKey("WoodId")]
+
+        [DataMember]
+        [Required]
         public int WoodId { get; private set; }
-        [ForeignKey("ImplementerId")]
+
+        [DataMember]
         public int? ImplementerId { get; private set; }
-        [ForeignKey("ClientId")]
+
+        [DataMember]
         [Required]
         public int ClientId { get; set; }
 
+        [DataMember]
         [Required]
         public int Count { get; private set; }
 
+        [DataMember]
         [Required]
         public double Sum { get; private set; }
 
+        [DataMember]
         [Required]
         public OrderStatus Status { get; private set; } = OrderStatus.Неизвестен;
 
+        [DataMember]
         [Required]
         public DateTime DateCreate { get; private set; }
 
+        [DataMember]
         public DateTime? DateImplement { get; private set; }
 
         public virtual Wood Wood { get; set; }

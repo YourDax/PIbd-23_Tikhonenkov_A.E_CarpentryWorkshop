@@ -5,16 +5,23 @@ using CarpentryWorkshopDataModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace CarpentryWorkshopFileImplement.Models
 {
+    [DataContract]
     public class Component : IComponentModel
     {
+        [DataMember]
         public int Id { get; private set; }
+
+        [DataMember]
         public string ComponentName { get; private set; } = string.Empty;
+
+        [DataMember]
         public double Cost { get; set; }
         public static Component? Create(ComponentBindingModel model)
         {

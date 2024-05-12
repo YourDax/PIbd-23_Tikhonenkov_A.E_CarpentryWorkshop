@@ -1,6 +1,7 @@
 ﻿using CarpentryWorkshopBusinessLogic.BusinessLogics;
 using CarpentryWorkshopContracts.BindingModels;
 using CarpentryWorkshopContracts.BusinessLogicsContracts;
+using CarpentryWorkshopContracts.DI;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -20,13 +21,15 @@ namespace CarpentryWorkshopView
         private readonly IOrderLogic _orderLogic;
         private readonly IReportLogic _reportLogic;
         private readonly IWorkProcess _workProcess;
-        public FormMain(ILogger<FormMain> logger, IOrderLogic orderLogic, IReportLogic reportLogic, IWorkProcess workProcess)
+        private readonly IBackUpLogic _backUpLogic;
+        public FormMain(ILogger<FormMain> logger, IOrderLogic orderLogic, IReportLogic reportLogic, IWorkProcess workProcess, IBackUpLogic backUpLogic)
         {
             InitializeComponent();
             _logger = logger;
             _orderLogic = orderLogic;
             _reportLogic = reportLogic;
             _workProcess = workProcess;
+            _backUpLogic = backUpLogic;
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -38,14 +41,7 @@ namespace CarpentryWorkshopView
             // прописать логику
             try
             {
-                var list = _orderLogic.ReadList(null);
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[3].Visible = false;
-                }
+                dataGridView.FillAndConfigGrid(_orderLogic.ReadList(null));
                 _logger.LogInformation("Загрузка продуктов");
             }
             catch (Exception ex)
@@ -56,29 +52,19 @@ namespace CarpentryWorkshopView
         }
         private void КомпонентыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormComponents));
-            if (service is FormComponents form)
-            {
-                form.ShowDialog();
-            }
+            var form = DependencyManager.Instance.Resolve<FormComponents>();
+            form.ShowDialog();
         }
         private void ИзделияToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // прописать логику
-            var service = Program.ServiceProvider?.GetService(typeof(FormWoods));
-            if (service is FormWoods form)
-            {
-                form.ShowDialog();
-            }
+            var form = DependencyManager.Instance.Resolve<FormWoods>();
+            form.ShowDialog();
         }
         private void ButtonCreateOrder_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormCreateOrder));
-            if (service is FormCreateOrder form)
-            {
-                form.ShowDialog();
-                LoadData();
-            }
+            var form = DependencyManager.Instance.Resolve<FormCreateOrder>();
+            form.ShowDialog();
+            LoadData();
         }
         private void ButtonTakeOrderInWork_Click(object sender, EventArgs e)
         {
@@ -162,48 +148,57 @@ namespace CarpentryWorkshopView
 
         private void изделияПоКомпонентамToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormReportWoodComponents));
-            if (service is FormReportWoodComponents form)
-            {
-                form.ShowDialog();
-            }
+            var form = DependencyManager.Instance.Resolve<FormReportWoodComponents>();
+            form.ShowDialog();
         }
 
         private void списокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormReportOrders));
-            if (service is FormReportOrders form)
-            {
-                form.ShowDialog();
-            }
+            var form = DependencyManager.Instance.Resolve<FormReportOrders>();
+            form.ShowDialog();
         }
         private void clientsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormClients));
-            if (service is FormClients form)
-            {
-                form.ShowDialog();
-            }
+            var form = DependencyManager.Instance.Resolve<FormClients>();
+            form.ShowDialog();
         }
         private void запускРаботToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _workProcess.DoWork((Program.ServiceProvider?.GetService(typeof(IImplementerLogic)) as IImplementerLogic)!, _orderLogic);
+            _workProcess.DoWork(DependencyManager.Instance.Resolve<IImplementerLogic>(), _orderLogic);
             MessageBox.Show("Процесс обработки запущен", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormImplementers));
-            if (service is FormImplementers form)
-            {
-                form.ShowDialog();
-            }
+            var form = DependencyManager.Instance.Resolve<FormImplementers>();
+            form.ShowDialog();
         }
         private void письмаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormMail));
-            if (service is FormMail form)
+            var form = DependencyManager.Instance.Resolve<FormMail>();
+            form.ShowDialog();
+        }
+        private void createBackUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
             {
-                form.ShowDialog();
+                if (_backUpLogic != null)
+                {
+                    var fbd = new FolderBrowserDialog();
+                    if (fbd.ShowDialog() == DialogResult.OK)
+                    {
+                        _backUpLogic.CreateBackUp(new BackUpSaveBinidngModel
+                        {
+                            FolderName = fbd.SelectedPath
+                        });
+                        MessageBox.Show("Бэкап создан", "Сообщение",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка создания бэкапа", MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using CarpentryWorkshopContracts.BindingModels;
 using CarpentryWorkshopContracts.BusinessLogicsContracts;
+using CarpentryWorkshopContracts.DI;
 using CarpentryWorkshopContracts.SearchModels;
 using CarpentryWorkshopDataModels.Models;
 using Microsoft.Extensions.Logging;
@@ -37,43 +38,34 @@ namespace CarpentryWorkshopView
                 var list = _logic.ReadList(null);
                 if (list != null)
                 {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns["Id"].Visible = false;
-                    dataGridView.Columns["WoodName"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dataGridView.Columns[3].Visible = false;
+                    dataGridView.FillAndConfigGrid(_logic.ReadList(null));
 
                 }
-                _logger.LogInformation("Загрузка продуктов");
+                _logger.LogInformation("Загрузка изделий");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Ошибка загрузки продуктов");
+                _logger.LogError(ex, "Ошибка загрузки изделий");
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void ButtonAdd_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormWood));
-            if (service is FormWood form)
+            var form = DependencyManager.Instance.Resolve<FormWood>();
+            if (form.ShowDialog() == DialogResult.OK)
             {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    LoadData();
-                }
+                LoadData();
             }
         }
         private void ButtonUpd_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var service = Program.ServiceProvider?.GetService(typeof(FormWood));
-                if (service is FormWood form)
+                var form = DependencyManager.Instance.Resolve<FormWood>();
+                form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells["Id"].Value);
+                if (form.ShowDialog() == DialogResult.OK)
                 {
-                    form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells["Id"].Value);
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        LoadData();
-                    }
+                    LoadData();
                 }
             }
         }

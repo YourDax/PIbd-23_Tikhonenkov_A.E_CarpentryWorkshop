@@ -3,14 +3,21 @@ using CarpentryWorkshopContracts.ViewModels;
 using CarpentryWorkshopDataModels.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace CarpentryWorkshopDatabaseImplement.Models
 {
+    [DataContract]
     public class Wood : IWoodModel
     {
+        [DataMember]
         public int Id { get; set; }
+
+        [DataMember]
         [Required]
         public string WoodName { get; set; } = string.Empty;
+
+        [DataMember]
         [Required]
         public double Price { get; set; }
         private Dictionary<int, (IComponentModel, int)>? _woodComponents = null;

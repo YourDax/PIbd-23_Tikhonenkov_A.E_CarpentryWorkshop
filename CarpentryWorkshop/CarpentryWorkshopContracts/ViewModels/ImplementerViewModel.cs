@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarpentryWorkshopContracts.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,18 +10,19 @@ namespace CarpentryWorkshopContracts.ViewModels
 {
 	public class ImplementerViewModel
 	{
-		public int Id { get; set; }
+        [Column(visible: false)]
+        public int Id { get; set; }
 
-		[DisplayName("ФИО исполнителя")]
-		public string ImplementerFIO { get; set; } = string.Empty;
+        [Column(title: "ФИО исполнителя", gridViewAutoSize: GridViewAutoSize.Fill, isUseAutoSize: true)]
+        public string ImplementerFIO { get; set; } = string.Empty;
 
-		[DisplayName("Пароль")]
-		public string Password { get; set; } = string.Empty;
+        [Column(title: "Пароль", width: 100)]
+        public string Password { get; set; } = string.Empty;
 
-		[DisplayName("Стаж работы")]
-		public int WorkExperience { get; set; }
+        [Column(title: "Стаж работы", width: 60)]
+        public int WorkExperience { get; set; }
 
-		[DisplayName("Квалификация")]
-		public int Qualification { get; set; }
+        [Column(title: "Квалификация", width: 60)]
+        public int Qualification { get; set; }
 	}
 }

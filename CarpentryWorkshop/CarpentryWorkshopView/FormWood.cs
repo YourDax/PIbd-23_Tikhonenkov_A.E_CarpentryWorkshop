@@ -1,5 +1,6 @@
 ﻿using CarpentryWorkshopContracts.BindingModels;
 using CarpentryWorkshopContracts.BusinessLogicsContracts;
+using CarpentryWorkshopContracts.DI;
 using CarpentryWorkshopContracts.SearchModels;
 using CarpentryWorkshopDataModels.Models;
 using Microsoft.Extensions.Logging;
@@ -75,48 +76,41 @@ namespace CarpentryWorkshopView
         }
         private void ButtonAdd_Click(object sender, EventArgs e)
         {
-            var service = Program.ServiceProvider?.GetService(typeof(FormWoodComponent));
-            if (service is FormWoodComponent form)
+            var form = DependencyManager.Instance.Resolve<FormWoodComponent>();
+            if (form.ShowDialog() == DialogResult.OK)
             {
+                return;
+            }
+            _logger.LogInformation("Добавление нового компонента:{ ComponentName}-{ Count}", form.ComponentModel.ComponentName, form.Count);
+            if (_woodComponents.ContainsKey(form.Id))
+            {
+                _woodComponents[form.Id] = (form.ComponentModel,
+                form.Count);
+            }
+            else
+            {
+                _woodComponents.Add(form.Id, (form.ComponentModel,
+                form.Count));
+            }
+            LoadData();
+        }
+        private void ButtonUpd_Click(object sender, EventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+                var form = DependencyManager.Instance.Resolve<FormWoodComponent>();
+                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                form.Id = id;
+                form.Count = _woodComponents[id].Item2;
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     if (form.ComponentModel == null)
                     {
                         return;
                     }
-                    _logger.LogInformation("Добавление нового компонента: {ComponentName} - {Count}", form.ComponentModel.ComponentName, form.Count);
-                    if (_woodComponents.ContainsKey(form.Id))
-                    {
-                        _woodComponents[form.Id] = (form.ComponentModel, form.Count);
-                    }
-                    else
-                    {
-                        _woodComponents.Add(form.Id, (form.ComponentModel, form.Count));
-                    }
+                    _logger.LogInformation("Изменение компонента:{ ComponentName}-{ Count}", form.ComponentModel.ComponentName, form.Count);
+                    _woodComponents[form.Id] = (form.ComponentModel, form.Count);
                     LoadData();
-                }
-            }
-        }
-        private void ButtonUpd_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                var service = Program.ServiceProvider?.GetService(typeof(FormWoodComponent));
-                if (service is FormWoodComponent form)
-                {
-                    int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
-                    form.Id = id;
-                    form.Count = _woodComponents[id].Item2;
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        if (form.ComponentModel == null)
-                        {
-                            return;
-                        }
-                        _logger.LogInformation("Изменение компонента: {ComponentName} - {Count}", form.ComponentModel.ComponentName, form.Count);
-                        _woodComponents[form.Id] = (form.ComponentModel, form.Count);
-                        LoadData();
-                    }
                 }
             }
         }

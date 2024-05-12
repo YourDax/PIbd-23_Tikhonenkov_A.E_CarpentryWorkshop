@@ -6,27 +6,42 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CarpentryWorkshopDatabaseImplement.Models
 {
-	public class MessageInfo : IMessageInfoModel
+    [DataContract]
+    public class MessageInfo : IMessageInfoModel
 	{
-		[Key]
+        [NotMapped]
+        public int Id { get; private set; }
+
+        [DataMember]
+        [Key]
 		public string MessageId { get; set; } = string.Empty;
 
-		public int? ClientId { get; set; }
+        [DataMember]
+        public int? ClientId { get; set; }
 
 		public virtual Client? Client { get; set; }
 
-		public string SenderName { get; set; } = string.Empty;
+        [DataMember]
+        [Required]
+        public string SenderName { get; set; } = string.Empty;
 
-		public DateTime DateDelivery { get; set; }
+        [DataMember]
+        [Required]
+        public DateTime DateDelivery { get; set; }
 
-		public string Subject { get; set; } = string.Empty;
+        [DataMember]
+        [Required]
+        public string Subject { get; set; } = string.Empty;
 
-		public string Body { get; set; } = string.Empty;
+        [DataMember]
+        [Required]
+        public string Body { get; set; } = string.Empty;
 
 		public static MessageInfo? Create(MessageInfoBindingModel? model)
 		{

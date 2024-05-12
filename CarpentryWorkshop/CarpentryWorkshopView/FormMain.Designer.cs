@@ -39,20 +39,21 @@
             списокЗаказовToolStripMenuItem = new ToolStripMenuItem();
             запускРаботToolStripMenuItem = new ToolStripMenuItem();
             исполнителиToolStripMenuItem = new ToolStripMenuItem();
+            письмаToolStripMenuItem = new ToolStripMenuItem();
             dataGridView = new DataGridView();
             ButtonCreateOrder = new Button();
             ButtonTakeOrderInWork = new Button();
             ButtonOrderReady = new Button();
             ButtonIssuedOrder = new Button();
             ButtonRef = new Button();
-            письмаToolStripMenuItem = new ToolStripMenuItem();
+            создатьБэкапToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { справочникиToolStripMenuItem, отчетыToolStripMenuItem, запускРаботToolStripMenuItem, исполнителиToolStripMenuItem, письмаToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { справочникиToolStripMenuItem, отчетыToolStripMenuItem, запускРаботToolStripMenuItem, исполнителиToolStripMenuItem, письмаToolStripMenuItem, создатьБэкапToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1174, 24);
@@ -129,6 +130,13 @@
             исполнителиToolStripMenuItem.Text = "Исполнители";
             исполнителиToolStripMenuItem.Click += исполнителиToolStripMenuItem_Click;
             // 
+            // письмаToolStripMenuItem
+            // 
+            письмаToolStripMenuItem.Name = "письмаToolStripMenuItem";
+            письмаToolStripMenuItem.Size = new Size(62, 20);
+            письмаToolStripMenuItem.Text = "Письма";
+            письмаToolStripMenuItem.Click += письмаToolStripMenuItem_Click;
+            // 
             // dataGridView
             // 
             dataGridView.BackgroundColor = SystemColors.ButtonHighlight;
@@ -190,12 +198,12 @@
             ButtonRef.UseVisualStyleBackColor = true;
             ButtonRef.Click += ButtonRef_Click;
             // 
-            // письмаToolStripMenuItem
+            // создатьБэкапToolStripMenuItem
             // 
-            письмаToolStripMenuItem.Name = "письмаToolStripMenuItem";
-            письмаToolStripMenuItem.Size = new Size(62, 20);
-            письмаToolStripMenuItem.Text = "Письма";
-            письмаToolStripMenuItem.Click += письмаToolStripMenuItem_Click;
+            создатьБэкапToolStripMenuItem.Name = "создатьБэкапToolStripMenuItem";
+            создатьБэкапToolStripMenuItem.Size = new Size(97, 20);
+            создатьБэкапToolStripMenuItem.Text = "Создать Бэкап";
+            создатьБэкапToolStripMenuItem.Click += createBackUpToolStripMenuItem_Click;
             // 
             // FormMain
             // 
@@ -239,5 +247,6 @@
         private ToolStripMenuItem запускРаботToolStripMenuItem;
         private ToolStripMenuItem исполнителиToolStripMenuItem;
         private ToolStripMenuItem письмаToolStripMenuItem;
+        private ToolStripMenuItem создатьБэкапToolStripMenuItem;
     }
 }

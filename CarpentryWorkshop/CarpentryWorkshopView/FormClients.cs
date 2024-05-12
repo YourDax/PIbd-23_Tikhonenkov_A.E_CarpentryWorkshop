@@ -30,15 +30,7 @@ namespace CarpentryWorkshopView
         {
             try
             {
-                var list = _logic.ReadList(null);
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                dataGridView.FillAndConfigGrid(_logic.ReadList(null));
             }
             catch (Exception ex)
             {

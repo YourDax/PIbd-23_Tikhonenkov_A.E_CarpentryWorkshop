@@ -11,27 +11,38 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Runtime.Serialization;
 
 namespace CarpentryWorkshopFileImplement.Models
 {
+    [DataContract]
     public class Order : IOrderModel
     {
+        [DataMember]
         public int WoodId { get; private set; }
 
+        [DataMember]
         public int? ImplementerId { get; set; }
 
+        [DataMember]
         public int ClientId { get; private set; }
 
+        [DataMember]
         public int Count { get; private set; }
 
+        [DataMember]
         public double Sum { get; private set; }
 
+        [DataMember]
         public OrderStatus Status { get; private set; } = OrderStatus.Неизвестен;
 
+        [DataMember]
         public DateTime DateCreate { get; private set; } = DateTime.Now;
 
+        [DataMember]
         public DateTime? DateImplement { get; private set; }
 
+        [DataMember]
         public int Id { get; private set; }
 
         public static Order? Create(OrderBindingModel model)

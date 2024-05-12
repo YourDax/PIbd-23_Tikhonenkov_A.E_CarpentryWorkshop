@@ -1,4 +1,5 @@
-﻿using CarpentryWorkshopDataModels.Models;
+﻿using CarpentryWorkshopContracts.Attributes;
+using CarpentryWorkshopDataModels.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,11 +11,16 @@ namespace CarpentryWorkshopContracts.ViewModels
 {
     public class WoodViewModel : IWoodModel
     {
+        [Column(visible: false)]
         public int Id { get; set; }
-        [DisplayName("Название изделия")]
+
+        [Column(title: "Название изделия", gridViewAutoSize: GridViewAutoSize.Fill, isUseAutoSize: true)]
         public string WoodName { get; set; } = string.Empty;
-        [DisplayName("Цена")]
+
+        [Column(title: "Цена", width: 70)]
         public double Price { get; set; }
+
+        [Column(visible: false)]
         public Dictionary<int, (IComponentModel, int)> WoodComponents
         {
             get;

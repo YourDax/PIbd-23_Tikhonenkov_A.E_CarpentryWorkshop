@@ -1,22 +1,33 @@
 ﻿using CarpentryWorkshopContracts.BindingModels;
 using CarpentryWorkshopContracts.ViewModels;
 using CarpentryWorkshopDataModels.Models;
+using System.Runtime.Serialization;
 using System.Xml.Linq;
 
 namespace CarpentryWorkshopFileImplement.Models
 {
+    [DataContract]
     public class Message : IMessageInfoModel
     {
+        [DataMember]
+        public int Id { get; private set; }
+
+        [DataMember]
         public string MessageId { get; private set; } = string.Empty;
 
+        [DataMember]
         public int? ClientId { get; private set; }
 
+        [DataMember]
         public string SenderName { get; private set; } = string.Empty;
 
+        [DataMember]
         public DateTime DateDelivery { get; private set; }
 
+        [DataMember]
         public string Subject { get; private set; } = string.Empty;
 
+        [DataMember]
         public string Body { get; private set; } = string.Empty;
 
         public static Message? Create(MessageInfoBindingModel model)
