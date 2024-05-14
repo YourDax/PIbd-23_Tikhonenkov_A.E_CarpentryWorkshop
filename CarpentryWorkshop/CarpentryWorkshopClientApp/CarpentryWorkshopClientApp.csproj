@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CarpentryWorkshopBusinessLogic\CarpentryWorkshopBusinessLogic.csproj" />
     <ProjectReference Include="..\CarpentryWorkshopContracts\CarpentryWorkshopContracts.csproj" />
+    <ProjectReference Include="..\CarpentryWorkshopDatabaseImplement\CarpentryWorkshopDatabaseImplement.csproj" />
   </ItemGroup>
 
 </Project>
