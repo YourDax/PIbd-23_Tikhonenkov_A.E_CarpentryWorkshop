@@ -51,7 +51,7 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
                 return false;
             }
 
-            SendOrderMessage(result.ClientId, $"Установка ПО, Заказ №{result.Id}", $"Заказ №{result.Id} от {result.DateCreate} на сумму {result.Sum:0.00} принят");
+            SendOrderMessage(result.ClientId, $"Доставка изделия, Заказ №{result.Id}", $"Заказ №{result.Id} от {result.DateCreate} на сумму {result.Sum:0.00} принят");
 
             return true;
         }
@@ -96,7 +96,7 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
             }
 
 
-            SendOrderMessage(result.ClientId, $"Установка ПО, Заказ №{result.Id}", $"Заказ №{model.Id} изменен статус на {result.Status}");
+            SendOrderMessage(result.ClientId, $"Доставка изделия, Заказ №{result.Id}", $"Заказ №{model.Id} изменен статус на {result.Status}");
             return true;
         }
 
