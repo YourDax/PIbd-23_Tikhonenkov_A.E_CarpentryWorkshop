@@ -201,5 +201,42 @@ namespace CarpentryWorkshopView
                 form.ShowDialog();
             }
         }
+        private void InfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using var dialog = new SaveFileDialog { Filter = "docx|*.docx" };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                _reportLogic.SaveShopsToWordFile(new ReportBindingModel { FileName = dialog.FileName });
+                MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void BusyShopsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var service = Program.ServiceProvider?.GetService(typeof(FormReportShop));
+            if (service is FormReportShop form)
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private void GroupOrdersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var service = Program.ServiceProvider?.GetService(typeof(FormReportGroupedOrders));
+            if (service is FormReportGroupedOrders form)
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private void отчетыToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void отчетыToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -16,18 +16,21 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
 
         private readonly IOrderStorage _orderStorage;
 
+        private readonly IShopStorage _shopStorage;
+
         private readonly AbstractSaveToExcel _saveToExcel;
 
         private readonly AbstractSaveToWord _saveToWord;
 
         private readonly AbstractSaveToPdf _saveToPdf;
 
-        public ReportLogic(IWoodStorage woodStorage, IComponentStorage componentStorage, IOrderStorage orderStorage,
+        public ReportLogic(IWoodStorage woodStorage, IComponentStorage componentStorage, IOrderStorage orderStorage, IShopStorage shopStorage,
             AbstractSaveToExcel saveToExcel, AbstractSaveToWord saveToWord, AbstractSaveToPdf saveToPdf)
         {
             _woodStorage = woodStorage;
             _componentStorage = componentStorage;
             _orderStorage = orderStorage;
+            _shopStorage = shopStorage;
 
             _saveToExcel = saveToExcel;
             _saveToWord = saveToWord;
@@ -125,6 +128,55 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
                 DateFrom = model.DateFrom!.Value,
                 DateTo = model.DateTo!.Value,
                 Orders = GetOrders(model)
+            });
+        }
+        public List<ReportShopsViewModel> GetShops()
+        {
+            return _shopStorage.GetFullList().Select(x => new ReportShopsViewModel
+            {
+                ShopName = x.ShopName,
+                Woods = x.ShopWoods.Select(x => (x.Value.Item1.WoodName, x.Value.Item2)).ToList(),
+                TotalCount = x.ShopWoods.Select(x => x.Value.Item2).Sum()
+            }).ToList();
+        }
+
+        public List<ReportGroupOrdersViewModel> GetGroupedOrders()
+        {
+            return _orderStorage.GetFullList().GroupBy(x => x.DateCreate.Date).Select(x => new ReportGroupOrdersViewModel
+            {
+                Date = x.Key,
+                OrdersCount = x.Count(),
+                OrdersSum = x.Select(y => y.Sum).Sum()
+            }).ToList();
+        }
+
+        public void SaveShopsToWordFile(ReportBindingModel model)
+        {
+            _saveToWord.CreateShopsDoc(new WordShopInfo
+            {
+                FileName = model.FileName,
+                Title = "Список магазинов",
+                Shops = _shopStorage.GetFullList()
+            });
+        }
+
+        public void SaveShopsToExcelFile(ReportBindingModel model)
+        {
+            _saveToExcel.CreateShopWoodsReport(new ExcelShop
+            {
+                FileName = model.FileName,
+                Title = "Наполненость магазинов",
+                ShopWoods = GetShops()
+            });
+        }
+
+        public void SaveGroupedOrdersToPdfFile(ReportBindingModel model)
+        {
+            _saveToPdf.CreateGroupedOrdersDoc(new PdfGroupedOrdersInfo
+            {
+                FileName = model.FileName,
+                Title = "Список заказов сгруппированных по дате заказов",
+                GroupedOrders = GetGroupedOrders()
             });
         }
     }

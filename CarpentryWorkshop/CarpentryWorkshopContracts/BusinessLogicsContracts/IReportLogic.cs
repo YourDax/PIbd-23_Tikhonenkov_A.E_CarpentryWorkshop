@@ -35,5 +35,11 @@ namespace CarpentryWorkshopContracts.BusinessLogicsContracts
         /// </summary>
         /// <param name="model"></param>
         void SaveOrdersToPdfFile(ReportBindingModel model);
+
+        List<ReportShopsViewModel> GetShops();
+        List<ReportGroupOrdersViewModel> GetGroupedOrders();
+        void SaveShopsToWordFile(ReportBindingModel model);
+        void SaveShopsToExcelFile(ReportBindingModel model);
+        void SaveGroupedOrdersToPdfFile(ReportBindingModel model);
     }
 }

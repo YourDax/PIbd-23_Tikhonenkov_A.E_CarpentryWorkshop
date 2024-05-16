@@ -3,6 +3,7 @@ using CarpentryWorkshopBusinessLogic.OfficePackage.HelperModels;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
+using System.Text;
 
 namespace CarpentryWorkshopBusinessLogic.OfficePackage.Implements
 {
@@ -16,6 +17,7 @@ namespace CarpentryWorkshopBusinessLogic.OfficePackage.Implements
 
         private static ParagraphAlignment GetParagraphAlignment(PdfParagraphAlignmentType type)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             return type switch
             {
                 PdfParagraphAlignmentType.Center => ParagraphAlignment.Center,
@@ -39,7 +41,7 @@ namespace CarpentryWorkshopBusinessLogic.OfficePackage.Implements
             style.Font.Bold = true;
         }
 
-        protected override void CreatePdf(PdfInfo info)
+        protected override void CreatePdf(IDocument info)
         {
             _document = new Document();
             DefineStyles(_document);
@@ -101,7 +103,7 @@ namespace CarpentryWorkshopBusinessLogic.OfficePackage.Implements
             }
         }
 
-        protected override void SavePdf(PdfInfo info)
+        protected override void SavePdf(IDocument info)
         {
             var renderer = new PdfDocumentRenderer(true)
             {

@@ -65,6 +65,8 @@ namespace CarpentryWorkshopView
             services.AddTransient<FormSell>();
             services.AddTransient<FormReportWoodComponents>();
             services.AddTransient<FormReportOrders>();
+            services.AddTransient<FormReportShop>();
+            services.AddTransient<FormReportGroupedOrders>();
         }
     }
 }

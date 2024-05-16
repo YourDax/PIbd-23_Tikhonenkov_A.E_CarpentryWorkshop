@@ -2,7 +2,7 @@
 
 namespace CarpentryWorkshopBusinessLogic.OfficePackage.HelperModels
 {
-    public class ExcelInfo
+    public class ExcelInfo : IDocument
     {
         public string FileName { get; set; } = string.Empty;
 
