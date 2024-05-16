@@ -31,6 +31,8 @@ namespace CarpentryWorkshopDatabaseImplement.Models
         public virtual List<WoodComponent> Components { get; set; } = new();
         [ForeignKey("WoodId")]
         public virtual List<Order> Orders { get; set; } = new();
+        [ForeignKey("WoodId")]
+        public virtual List<ShopWood> ShopWoods { get; set; } = new();
         public static Wood Create(CarpentryWorkshopDatabase context, WoodBindingModel model)
         {
             return new Wood()

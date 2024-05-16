@@ -8,11 +8,13 @@ namespace CarpentryWorkshopListImplement
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<Wood> Woods { get; set; }
+        public List<Shop> Shops { get; set; }
         private DataListSingleton()
         {
             Components = new List<Component>();
             Orders = new List<Order>();
             Woods = new List<Wood>();
+            Shops = new List<Shop>();
         }
         public static DataListSingleton GetInstance()
         {

@@ -17,10 +17,13 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
     {
         private readonly ILogger _logger;
         private readonly IOrderStorage _orderStorage;
-        public OrderLogic(ILogger<OrderLogic> logger, IOrderStorage orderStorage)
+        private readonly IShopStorage _shopStorage;
+
+        public OrderLogic(ILogger<OrderLogic> logger, IOrderStorage orderStorage, IShopStorage shopStorage)
         {
             _logger = logger;
             _orderStorage = orderStorage;
+            _shopStorage=shopStorage;
         }
         public List<OrderViewModel>? ReadList(OrderSearchModel? model)
         {
@@ -105,8 +108,21 @@ namespace CarpentryWorkshopBusinessLogic.BusinessLogics
         {
             var order = _orderStorage.GetElement(new OrderSearchModel
             {
-                Id = model.Id
+                Id = model.Id,
             });
+            if (order == null)
+            {
+                throw new ArgumentNullException(nameof(order));
+            }
+            if (!_shopStorage.RestockingShops(new SupplyBindingModel
+            {
+                WoodId = order.WoodId,
+                Count = order.Count
+            }))
+            {
+                throw new ArgumentException("Недостаточно места");
+            }
+            
             if (order == null)
             {
                 throw new Exception("Не найден заказ");
